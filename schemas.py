@@ -46,17 +46,17 @@ class SignupSchema(Schema):
             datetime.strptime(value, '%d/%m/%Y %H:%M')
         except ValueError:
             raise ValidationError("Invalid date format for last_login. Use 'DD/MM/YYYY HH:MM'.")
-
+            
 class UpdateProfileSchema(Schema):
     userid = fields.Str(required=True)
     password = fields.Str(required=False)
-    bms = fields.Str(required=False)
-    pushnotification = fields.Str(required=False)
-    aga = fields.Str(required=False)
+    bms = fields.Bool(required=False)
+    pushnotification = fields.Bool(required=False)
+    aga = fields.Bool(required=False)
+    qms = fields.Bool(required=False)
     mobile = fields.Str(required=False)
     username = fields.Str(required=False)
     limit = fields.Str(required=False)
-    qms = fields.Str(required=False)
 
 class UserLogoutSchema(Schema):
     user_id = fields.Str(required=True)
