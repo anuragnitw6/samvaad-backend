@@ -111,7 +111,7 @@ class UserProfileUpdate(MethodView):
         result = self.db.update_user_profile(userid, request_data)
 
         if result:
-            return {"message": "User profile updated successfully"}, 200
+            return result, 200
         else:
             abort(400, message="Failed to update user profile")
 
