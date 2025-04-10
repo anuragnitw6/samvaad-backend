@@ -77,7 +77,7 @@ class UserSignup(MethodView):
 
 
 @blp.route("/user_login")
-class UserSignup(MethodView):
+class UserLogin(MethodView):
 
     def __init__(self):
         self.db = UserDatabase()
