@@ -97,7 +97,7 @@ class UserProfileUpdate(MethodView):
         self.db = UserDatabase()
 
     @blp.arguments(UpdateProfileSchema, location="json")
-    def put(self, request_data):
+    def post(self, request_data):
         print("Incoming update payload:", request_data)
 
         userid = request_data.pop("userid", None)
