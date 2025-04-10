@@ -84,7 +84,7 @@ class UserLogin(MethodView):
         if result is None:
             abort(400, message="Username or password is incorrect")
         return {"message": "User added succesfully"}, 201
-    
+        
 @blp.route("/update_user")
 class UserProfileUpdate(MethodView):
     def __init__(self):
@@ -92,35 +92,23 @@ class UserProfileUpdate(MethodView):
 
     @blp.arguments(UpdateProfileSchema, location="json")
     def put(self, request_data):
-        userid = request_data.pop("userid")
+        print("Incoming update payload:", request_data)
+
+        userid = request_data.pop("userid", None)
+
+        if not userid:
+            abort(400, message="User ID is required")
+
+        if not request_data:
+            abort(400, message="No fields provided to update")
+
         result = self.db.update_user_profile(userid, request_data)
+
         if result:
             return {"message": "User profile updated successfully"}, 200
         else:
             abort(400, message="Failed to update user profile")
 
-    # @blp.arguments(UpdateProfileSchema, location="query")
-    # def put(self, request_data):
-    #     userid = request_data['userid']
-    #     updated_data = {
-    #         "username": request_data.get('username'),
-    #         "mobile": request_data.get('mobile'),
-    #         "password": request_data.get('password'),
-    #         "lastlogin": request_data.get('lastlogin')
-    #     }
-    #     result = self.db.update_user_profile(userid, updated_data)
-    #     if not result:
-    #         abort(400, message="Failed to update user profile")
-    #     return {"message": "Profile updated successfully"}, 200
-    # @blp.response(200, GetHomepage)
-    # @blp.arguments(RemoveFavouriteSchema, location="query")
-    # def delete(self, request_data):
-    #     user_id = request_data['user_id']
-    #     parent_id = request_data['parent_id']
-    #     result = self.db.remove_favourite(user_id,parent_id)
-    #     if result is None:
-    #         abort(404, message="Page Not Found")
-    #     return 200
     
 @blp.route("/add_moist")
 class MoistData(MethodView):
