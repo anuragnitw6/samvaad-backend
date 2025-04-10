@@ -445,7 +445,7 @@ class UserDatabase:
                 self.conn.commit()
                 # Only return required fields
                 return {
-                        "userid": user[0]["userid"],
+                        "userid": userid,
                         "username": user[0]["username"],
                         "email": user[0].get("email", ""),
                         "mobile": user[0]["mobile"],
