@@ -408,7 +408,7 @@ class UserDatabase:
             password='Admin123!',
             database='my_nw'
         )
-        self.cursor = self.conn.cursor()
+        self.cursor = self.conn.cursor(dictionary=True)
 
     def add_user(self, username, password, mobile, created_at, last_login, qms=True, aga=True, pushnotification=True, bms=True, user_limit=15):
         userid = uuid.uuid4().hex
