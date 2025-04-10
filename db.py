@@ -447,9 +447,15 @@ class UserDatabase:
                 return {
                         "userid": userid,
                         "username": user["username"],
-                        "email": user.get("email", ""),
+                        "password": user["password"],
                         "mobile": user["mobile"],
-                        "lastlogin": str(user.get("lastlogin"))
+                        "lastlogin": str(user.get("lastlogin")),
+                        "qms":user["qms"],
+                        "aga":user["aga"],
+                        "pushnotification":user["pushnotification"],
+                        "bms":user["bms"],
+                        "limit":user["limit"]
+                        
                     }
                 #return user  # or True if you just want a success indicator
             else:
