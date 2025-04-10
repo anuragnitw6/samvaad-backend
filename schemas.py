@@ -32,6 +32,19 @@ class SignupSchema(Schema):
     mobile = fields.Str(required=True)
     created_at = fields.Str(required=True)
     last_login = fields.Str(required=True)
+    @validates('created_at')
+    def validate_created_at(self, value):
+        try:
+            datetime.strptime(value, '%d/%m/%Y %H:%M')
+        except ValueError:
+            raise ValidationError("Invalid date format for created_at. Use 'DD/MM/YYYY HH:MM'.")
+
+    @validates('last_login')
+    def validate_last_login(self, value):
+        try:
+            datetime.strptime(value, '%d/%m/%Y %H:%M')
+        except ValueError:
+            raise ValidationError("Invalid date format for last_login. Use 'DD/MM/YYYY HH:MM'.")
 
 class UpdateProfileSchema(Schema):
     userid = fields.Str(required=True)
