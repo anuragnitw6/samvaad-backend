@@ -77,8 +77,8 @@ class UserLogin(MethodView):
         username = request_data['username']
         password = request_data['password']
         mobile = request_data['mobile']
-        created_at = request_data['created_at']
-        last_login = request_data['last_login']
+        created_at = datetime.strptime(request_data['created_at'], '%d/%m/%Y %H:%M')
+        last_login = datetime.strptime(request_data['last_login'], '%d/%m/%Y %H:%M')
         result = self.db.add_user(username,password,mobile,created_at,last_login)
         if result is None:
             abort(400, message="Username or password is incorrect")
