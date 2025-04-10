@@ -545,9 +545,6 @@ class UserDatabase:
                             "limit": user["limit"]
                         }
             else:
-                print("User not found after update.")
-                return None
-            else:
                 print("Update query ran, but no rows affected.")
                 return False
 
