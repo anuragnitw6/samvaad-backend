@@ -410,13 +410,13 @@ class UserDatabase:
         )
         self.cursor = self.conn.cursor()
 
-    def add_user(self, username, password, mobile, created_at, last_login, qms=True, aga=True, pushnotification=True, bms=True, limit=15):
+    def add_user(self, username, password, mobile, created_at, last_login, qms=True, aga=True, pushnotification=True, bms=True, user_limit=15):
         userid = uuid.uuid4().hex
         query = """
         INSERT INTO samvaad_user (userid, username, password, mobile, createdat, lastlogin, qms, aga, pushnotification, bms, limit)
         VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
         """
-        values = (userid, username, password, mobile, created_at, last_login, qms, aga, pushnotification, bms, limit)
+        values = (userid, username, password, mobile, created_at, last_login, qms, aga, pushnotification, bms, user_limit)
         try:
             self.cursor.execute(query, values)
             self.conn.commit()
