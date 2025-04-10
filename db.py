@@ -446,10 +446,10 @@ class UserDatabase:
                 # Only return required fields
                 return {
                         "userid": userid,
-                        "username": user[0]["username"],
-                        "email": user[0].get("email", ""),
-                        "mobile": user[0]["mobile"],
-                        "lastlogin": str(user[0].get("lastlogin"))
+                        "username": user["username"],
+                        "email": user.get("email", ""),
+                        "mobile": user["mobile"],
+                        "lastlogin": str(user.get("lastlogin"))
                     }
                 #return user  # or True if you just want a success indicator
             else:
