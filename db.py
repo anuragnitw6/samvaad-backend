@@ -518,7 +518,7 @@ class UserDatabase:
         
             for key in ["bms", "pushnotification", "aga", "qms"]:
                 if key in fields_to_update:
-                     fields_to_update[key] = int(fields_to_update[key] == True)
+                     fields_to_update[key] = int(fields_to_update[key] == true)
             set_clause = ", ".join([f"{key} = %s" for key in fields_to_update])
             values = list(fields_to_update.values())
             values.append(userid)
