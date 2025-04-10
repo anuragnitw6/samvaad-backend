@@ -62,7 +62,7 @@ class UserLogin(MethodView):
         self.db = UserDatabase()
     
     @blp.response(200)
-    @blp.arguments(LoginSchema, location="query")
+    @blp.arguments(LoginSchema, location="json")
     def get(self, request_data):
         username = request_data['username']
         password = request_data['password']
@@ -71,7 +71,7 @@ class UserLogin(MethodView):
             abort(404, message="Page Not Found")
         return result, 200
     
-    @blp.arguments(SignupSchema, location="query")
+    @blp.arguments(SignupSchema, location="json")
     def post(self, request_data):
         #request_data = request.get_json()
         #print(request_data)
