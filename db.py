@@ -429,10 +429,10 @@ class UserDatabase:
                     "mobile": mobile,
                     "created_at": created_at.strftime("%d/%m/%Y %H:%M") if isinstance(created_at, (datetime,)) else str(created_at),
                     "last_login": last_login.strftime("%d/%m/%Y %H:%M") if isinstance(last_login, (datetime,)) else str(last_login),
-                    "qms": qms,
-                    "aga": aga,
-                    "pushnotification": pushnotification,
-                    "bms": bms,
+                    "qms": bool(qms),
+                    "aga": bool(aga),
+                    "pushnotification": bool(pushnotification),
+                    "bms": bool(bms),
                     "limit": user_limit
                 }
         except IntegrityError as e:
@@ -464,10 +464,10 @@ class UserDatabase:
                         "password": user["password"],
                         "mobile": user["mobile"],
                         "lastlogin": str(user.get("lastlogin")),
-                        "qms":user["qms"],
-                        "aga":user["aga"],
-                        "pushnotification":user["pushnotification"],
-                        "bms":user["bms"],
+                        "qms":bool(user["qms"]),
+                        "aga":bool(user["aga"]),
+                        "pushnotification":bool(user["pushnotification"]),
+                        "bms":bool(user["bms"]),
                         "limit":user["limit"]
                         
                     }
