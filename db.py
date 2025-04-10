@@ -526,7 +526,27 @@ class UserDatabase:
             self.conn.commit()
 
             if self.cursor.rowcount > 0:
-                return True
+                # Fetch and return the updated user data
+                self.cursor.execute("SELECT * FROM samvaad_user WHERE userid = %s", (userid,))
+                user = self.cursor.fetchone()
+
+                if user:
+                        return {
+                            "userid": user["userid"],
+                            "username": user["username"],
+                            "password": user["password"],
+                            "mobile": user["mobile"],
+                            "created_at": str(user.get("createdat")),
+                            "last_login": str(user.get("lastlogin")),
+                            "qms": bool(user["qms"]),
+                            "aga": bool(user["aga"]),
+                            "pushnotification": bool(user["pushnotification"]),
+                            "bms": bool(user["bms"]),
+                            "limit": user["limit"]
+                        }
+            else:
+                print("User not found after update.")
+                return None
             else:
                 print("Update query ran, but no rows affected.")
                 return False
