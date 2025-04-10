@@ -515,12 +515,16 @@ class UserDatabase:
         try:
             # Log the fields before proceeding
             print("Fields to update:", fields_to_update)
-
+                
             # Convert the boolean values (strings from JSON might need to be cast to True/False)
             for key in ["bms", "pushnotification", "aga", "qms"]:
                 if key in fields_to_update:
-                     # Ensure we are dealing with booleans, convert them properly
-                     fields_to_update[key] = 1 if fields_to_update[key] in ['true', 'True', True] else 0
+                   value = fields_to_update[key]
+                   # Handle cases where the value is a string 'true' or 'false'
+                   if isinstance(value, str):
+                       fields_to_update[key] = 1 if value.lower() == 'true' else 0
+                   elif isinstance(value, bool):
+                       fields_to_update[key] = 1 if value else 0
 
             set_clause = ", ".join([f"{key} = %s" for key in fields_to_update])
             values = list(fields_to_update.values())
