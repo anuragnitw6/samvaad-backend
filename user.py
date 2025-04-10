@@ -61,7 +61,7 @@ class UserLogin(MethodView):
     def __init__(self):
         self.db = UserDatabase()
     
-    @blp.response(200, GetHomepage)
+    @blp.response(200)
     @blp.arguments(LoginSchema, location="query")
     def get(self, request_data):
         username = request_data['username']
