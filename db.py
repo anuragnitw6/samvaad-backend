@@ -437,9 +437,10 @@ class UserDatabase:
             user = self.cursor.fetchone()
 
             if user:
+                userid = user[0][0]  # Use index instead of key
                 # Optionally update last_login time here
                 update_query = "UPDATE samvaad_user SET lastlogin = NOW() WHERE userid = %s"
-                self.cursor.execute(update_query, (user[0]['userid'],))
+                self.cursor.execute(update_query, (userid,))
                 self.conn.commit()
                 # Only return required fields
                 return {
