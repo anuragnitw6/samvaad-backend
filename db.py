@@ -420,7 +420,21 @@ class UserDatabase:
         try:
             self.cursor.execute(query, values)
             self.conn.commit()
-            return True
+            
+            # Return the inserted data as confirmation
+            return {
+                    "userid": userid,
+                    "username": username,
+                    "password": password,
+                    "mobile": mobile,
+                    "created_at": created_at.strftime("%d/%m/%Y %H:%M") if isinstance(created_at, (datetime,)) else str(created_at),
+                    "last_login": last_login.strftime("%d/%m/%Y %H:%M") if isinstance(last_login, (datetime,)) else str(last_login),
+                    "qms": qms,
+                    "aga": aga,
+                    "pushnotification": pushnotification,
+                    "bms": bms,
+                    "limit": user_limit
+                }
         except IntegrityError as e:
             print("IntegrityError:", e)
             return False
