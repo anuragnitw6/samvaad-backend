@@ -435,9 +435,10 @@ class UserDatabase:
         try:
             self.cursor.execute(query, values)
             user = self.cursor.fetchone()
+            print("Fetched user:", user)  # Debug: See what's being returned
 
             if user:
-                userid = user[0][0]  # Use index instead of key
+                userid = user["userid"]
                 # Optionally update last_login time here
                 update_query = "UPDATE samvaad_user SET lastlogin = NOW() WHERE userid = %s"
                 self.cursor.execute(update_query, (userid,))
