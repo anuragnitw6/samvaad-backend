@@ -83,7 +83,7 @@ class UserLogin(MethodView):
         result = self.db.add_user(username,password,mobile,created_at,last_login)
         if result is None:
             abort(400, message="Username or password is incorrect")
-        return {"message": "User added succesfully"}, 201
+        return result, 201
         
 @blp.route("/update_user")
 class UserProfileUpdate(MethodView):
