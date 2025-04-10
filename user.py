@@ -115,6 +115,7 @@ class UserProfileUpdate(MethodView):
         else:
             abort(400, message="Failed to update user profile")
 
+
     
 @blp.route("/add_moist")
 class MoistData(MethodView):
