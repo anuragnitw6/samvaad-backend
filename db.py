@@ -502,19 +502,17 @@ class UserDatabase:
                 set_clause = ", ".join([f"{key} = %s" for key in fields_to_update])
                 values = list(fields_to_update.values())
                 values.append(userid)
+                query = f"UPDATE samvaad_user SET {set_clause} WHERE userid = %s"
+                print("Executing query:", query)
+                print("With values:", values)
+                self.cursor.execute(query, values)
+                self.conn.commit()
 
-        query = f"UPDATE samvaad_user SET {set_clause} WHERE userid = %s"
-        print("Executing query:", query)
-        print("With values:", values)
-
-        self.cursor.execute(query, values)
-        self.conn.commit()
-
-        if self.cursor.rowcount > 0:
-            return True
-        else:
-            print("Update query ran, but no rows affected.")
-            return False
+                if self.cursor.rowcount > 0:
+                    return True
+                else:
+                    print("Update query ran, but no rows affected.")
+                    return False
 
         except mysql.connector.Error as e:
             print("Database Error:", e)
