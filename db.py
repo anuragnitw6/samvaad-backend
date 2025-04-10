@@ -525,7 +525,9 @@ class UserDatabase:
                        fields_to_update[key] = 1 if value.lower() == 'true' else 0
                    elif isinstance(value, bool):
                        fields_to_update[key] = 1 if value else 0
-
+            # Ensure 'limit' is treated as an integer
+            if 'limit' in fields_to_update:
+                fields_to_update['limit'] = int(fields_to_update['limit'])
             set_clause = ", ".join([f"{key} = %s" for key in fields_to_update])
             values = list(fields_to_update.values())
             values.append(userid)
