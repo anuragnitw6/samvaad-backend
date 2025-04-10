@@ -434,7 +434,7 @@ class UserDatabase:
 
         try:
             self.cursor.execute(query, values)
-            user = self.cursor.fetchall()
+            user = self.cursor.fetchone()
 
             if user:
                 # Optionally update last_login time here
