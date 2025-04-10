@@ -439,7 +439,7 @@ class UserDatabase:
             if user:
                 # Optionally update last_login time here
                 update_query = "UPDATE samvaad_user SET lastlogin = NOW() WHERE userid = %s"
-                self.cursor.execute(update_query, (user[0],))
+                self.cursor.execute(update_query, (user['userid'],))
                 self.conn.commit()
 
                 return user  # or True if you just want a success indicator
