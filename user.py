@@ -56,20 +56,10 @@ result_list = []
 #         return result, 200
     
 @blp.route("/add_user")
-class UserLogin(MethodView):
+class UserSignup(MethodView):
 
     def __init__(self):
         self.db = UserDatabase()
-    
-    @blp.response(200)
-    @blp.arguments(LoginSchema, location="json")
-    def get(self, request_data):
-        username = request_data['username']
-        password = request_data['password']
-        result = self.db.signin_user(username, password)
-        if result is None:
-            abort(404, message="Page Not Found")
-        return result, 200
     
     @blp.arguments(SignupSchema, location="json")
     def post(self, request_data):
@@ -84,6 +74,22 @@ class UserLogin(MethodView):
         if result is None:
             abort(400, message="Username or password is incorrect")
         return result, 201
+
+
+@blp.route("/user_login")
+class UserSignup(MethodView):
+
+    def __init__(self):
+        self.db = UserDatabase()
+    
+    @blp.arguments(LoginSchema, location="json")
+    def post(self, request_data):
+        username = request_data['username']
+        password = request_data['password']
+        result = self.db.signin_user(username, password)
+        if result is None:
+            abort(404, message="Page Not Found")
+        return result, 200
         
 @blp.route("/update_user")
 class UserProfileUpdate(MethodView):
