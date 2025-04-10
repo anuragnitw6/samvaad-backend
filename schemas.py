@@ -56,6 +56,7 @@ class UpdateProfileSchema(Schema):
     mobile = fields.Str(required=False)
     username = fields.Str(required=False)
     limit = fields.Str(required=False)
+    qms = fields.Str(required=False)
 
 class UserLogoutSchema(Schema):
     user_id = fields.Str(required=True)
