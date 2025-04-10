@@ -441,8 +441,15 @@ class UserDatabase:
                 update_query = "UPDATE samvaad_user SET lastlogin = NOW() WHERE userid = %s"
                 self.cursor.execute(update_query, (user[0]['userid'],))
                 self.conn.commit()
-
-                return user  # or True if you just want a success indicator
+                # Only return required fields
+                return {
+                        "userid": user[0]["userid"],
+                        "username": user[0]["username"],
+                        "email": user[0].get("email", ""),
+                        "mobile": user[0]["mobile"],
+                        "lastlogin": str(user[0].get("lastlogin"))
+                    }
+                #return user  # or True if you just want a success indicator
             else:
                 return None  # Invalid credentials
         except mysql.connector.Error as e:
