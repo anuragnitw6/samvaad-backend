@@ -116,7 +116,6 @@ class EditDeviceSchema(Schema):
     devicename = fields.Str(required=False)
     macaddress = fields.Str(required=False)
     charuuid = fields.Str(required=False)
-    status = fields.Boolean(required=False)
 
 class ViewDeviceHistorySchema(Schema):
     deviceid = fields.Str(required=True)
