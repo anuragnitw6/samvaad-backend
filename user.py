@@ -202,7 +202,7 @@ class DeviceAPI(MethodView):
     @blp.arguments(ViewDeviceHistorySchema, location="query")
     def patch(self, request_data):
         deviceid = request_data['deviceid']
-        history = self.db.get_moist_history_by_deviceid(deviceid)
+        history = self.db.get_device_history(deviceid)
 
         if not history:
             abort(404, message="No moisture history found for this device")
