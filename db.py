@@ -623,7 +623,7 @@ class UserDatabase:
             return False
         query = """
         INSERT INTO notification (id, userid, title, description, date, type, status)
-        VALUES (%s, %s, %s, %s, %s, %s)
+        VALUES (%s, %s, %s, %s, %s, %s, %s)
         """
         values = (id, userid, title, description, notif_date_obj, notif_type, status)
         try:
