@@ -155,7 +155,7 @@ class DeviceAPI(MethodView):
         self.db = UserDatabase()
 
     # Add new device
-    @blp.arguments(AddDeviceSchema, location="query")
+    @blp.arguments(AddDeviceSchema, location="json")
     def post(self, request_data):
         userid = request_data['userid']
         deviceid = request_data['deviceid']
