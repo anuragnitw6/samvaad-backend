@@ -227,7 +227,7 @@ class NotificationView(MethodView):
         notifications = self.db.get_notifications_by_userid(userid)
         if not notifications:
             abort(404, message="No notifications found")
-        return {"notifications": notifications}, 200
+        return notifications, 200
 
     @blp.arguments(NotificationIdSchema, location="query")
     def delete(self, request_data):
