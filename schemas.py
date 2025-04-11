@@ -122,6 +122,7 @@ class ViewDeviceHistorySchema(Schema):
 
     
 class AddNotificationSchema(Schema):
+    id = fields.Str(required=True)
     userid = fields.Str(required=True)
     title = fields.Str(required=True)
     description = fields.Str(required=True)
