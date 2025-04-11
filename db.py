@@ -588,23 +588,15 @@ class UserDatabase:
             print("Database Error:", e)
             return []
 
-    def edit_device(self, deviceid, devicename=None, macaddress=None, charuuid=None):
-        updates = []
-        values = []
+    def edit_device(self, deviceid, devicename, macaddress, charuuid):
+        
+        query = """
+        UPDATE user_device
+        SET devicename = %s, macaddress = %s, charuuid = %s
+        WHERE deviceid = %s
+        """
+        values = (devicename, macaddress, charuuid, deviceid)
 
-        if devicename is not None:
-            updates.append("devicename = %s")
-            values.append(devicename)
-        if macaddress is not None:
-            updates.append("macaddress = %s")
-            values.append(macaddress)
-        if charuuid is not None:
-            updates.append("charuuid = %s")
-            values.append(charuuid)
-
-        values.append(deviceid)
-
-        query = f"UPDATE user_device SET {', '.join(updates)} WHERE deviceid = %s"
         try:
             self.cursor.execute(query, values)
             self.conn.commit()
