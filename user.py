@@ -146,7 +146,7 @@ class MoistData(MethodView):
         if not records:
             abort(404, message="No moisture history found for this user")
 
-        return {"moisture_history": records}, 200
+        return records, 200
 
 @blp.route("/device")
 class DeviceAPI(MethodView):
