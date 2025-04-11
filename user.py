@@ -120,8 +120,7 @@ class MoistData(MethodView):
     @blp.arguments(AddMoistHistorySchema, location="query")
     def get(self, request_data):
         userid = request_data['userid']
-        date = request_data['date']
-        time = request_data['time']
+        date = request_data['moistdate']
         commodity = request_data['commodity']
         lot = request_data['lot']
         stack = request_data['stack']
@@ -131,7 +130,7 @@ class MoistData(MethodView):
         depo = request_data['depo']
         deviceId = request_data['deviceId']
 
-        result = self.db.add_moist_history(userid, date, time, commodity, lot, stack, moisture, temperature, humidity, depo, deviceId)
+        result = self.db.add_moist_history(userid, date, commodity, lot, stack, moisture, temperature, humidity, depo, deviceId)
 
         if not result:
             abort(400, message="Failed to add moist history")
