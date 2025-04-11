@@ -507,62 +507,61 @@ class UserDatabase:
         except mysql.connector.Error as e:
             print("Database Error:", e)
             return []
-    def update_user_profile(self, userid, fields_to_update):
-        if not fields_to_update:
-            print("No fields to update.")
-            return False
 
+    def update_user_profile(self, userid, fields_to_update):
         try:
-            # Log the fields before proceeding
-            print("Fields to update:", fields_to_update)
-                
-            # Convert the boolean values (strings from JSON might need to be cast to True/False)
-            for key in ["bms", "pushnotification", "aga", "qms"]:
-                if key in fields_to_update:
-                   value = fields_to_update[key]
-                   # Handle cases where the value is a string 'true' or 'false'
-                   if isinstance(value, str):
-                       fields_to_update[key] = 1 if value.lower() == 'true' else 0
-                   elif isinstance(value, bool):
-                       fields_to_update[key] = 1 if value else 0
-            # Ensure 'limit' is treated as an integer
-            if 'limit' in fields_to_update:
-                fields_to_update['limit'] = int(fields_to_update['limit'])
-            set_clause = ", ".join([f"{key} = %s" for key in fields_to_update])
-            values = list(fields_to_update.values())
-            values.append(userid)
-            query = f"UPDATE samvaad_user SET {set_clause} WHERE userid = %s"
+            print("Incoming update fields:", fields_to_update)
+
+            # Explicitly convert booleans to integers (MySQL stores 1/0)
+            for key in ["qms", "bms", "aga", "pushnotification"]:
+                value = fields_to_update[key]
+                fields_to_update[key] = 1 if value else 0
+
+            query = """
+             UPDATE samvaad_user
+             SET qms = %s, bms = %s, aga = %s, pushnotification = %s
+             WHERE userid = %s
+            """
+            values = (
+              fields_to_update["qms"],
+              fields_to_update["bms"],
+              fields_to_update["aga"],
+              fields_to_update["pushnotification"],
+              userid
+            )
+
             print("Executing query:", query)
             print("With values:", values)
+
             self.cursor.execute(query, values)
             self.conn.commit()
 
             if self.cursor.rowcount > 0:
-                # Fetch and return the updated user data
-                self.cursor.execute("SELECT * FROM samvaad_user WHERE userid = %s", (userid,))
-                user = self.cursor.fetchone()
+               # Fetch and return the updated user data
+               self.cursor.execute("SELECT * FROM samvaad_user WHERE userid = %s", (userid,))
+               user = self.cursor.fetchone()
 
-                if user:
-                        return {
-                            "userid": user["userid"],
-                            "username": user["username"],
-                            "password": user["password"],
-                            "mobile": user["mobile"],
-                            "created_at": str(user.get("createdat")),
-                            "last_login": str(user.get("lastlogin")),
-                            "qms": bool(user["qms"]),
-                            "aga": bool(user["aga"]),
-                            "pushnotification": bool(user["pushnotification"]),
-                            "bms": bool(user["bms"]),
-                            "limit": user["limit"]
-                        }
-            else:
-                print("Update query ran, but no rows affected.")
-                return False
+               if user:
+                return {
+                    "userid": user["userid"],
+                    "username": user["username"],
+                    "password": user["password"],
+                    "mobile": user["mobile"],
+                    "created_at": str(user.get("createdat")),
+                    "last_login": str(user.get("lastlogin")),
+                    "qms": bool(user["qms"]),
+                    "aga": bool(user["aga"]),
+                    "pushnotification": bool(user["pushnotification"]),
+                    "bms": bool(user["bms"]),
+                    "limit": user["limit"]
+                }
 
-        except mysql.connector.Error as e:
-             print("Database Error:", e)
-             return False
+            print("No rows updated.")
+               return False
+
+            except mysql.connector.Error as e:
+               print("Database Error:", e)
+               return False
 
         
         
