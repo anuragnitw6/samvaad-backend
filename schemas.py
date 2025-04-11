@@ -125,8 +125,7 @@ class AddNotificationSchema(Schema):
     userid = fields.Str(required=True)
     title = fields.Str(required=True)
     description = fields.Str(required=True)
-    date = fields.Date(required=True)
-    time = fields.Time(required=True)
+    date = fields.Str(required=True)
     type = fields.Str(required=True)
     status = fields.Boolean(required=True)
 
