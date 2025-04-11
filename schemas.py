@@ -49,14 +49,14 @@ class SignupSchema(Schema):
             
 class UpdateProfileSchema(Schema):
     userid = fields.Str(required=True)
-    password = fields.Str(required=False)
-    bms = fields.Bool(required=False)
-    pushnotification = fields.Bool(required=False)
-    aga = fields.Bool(required=False)
-    qms = fields.Bool(required=False)
-    mobile = fields.Str(required=False)
-    username = fields.Str(required=False)
-    limit = fields.Str(required=False)
+    password = fields.Str(required=True)
+    bms = fields.Bool(required=True)
+    pushnotification = fields.Bool(required=True)
+    aga = fields.Bool(required=True)
+    qms = fields.Bool(required=True)
+    mobile = fields.Str(required=True)
+    username = fields.Str(required=True)
+    limit = fields.Str(required=True)
 
 class UserLogoutSchema(Schema):
     user_id = fields.Str(required=True)
