@@ -128,7 +128,7 @@ class AddNotificationSchema(Schema):
     notif_date = fields.Str(required=True)
     notif_type = fields.Str(required=True)
     status = fields.Boolean(required=True)
-     @validates('notif_date')
+    @validates('notif_date')
     def validate_notif_date(self, value):
         try:
             datetime.strptime(value, '%d/%m/%Y %H:%M')
