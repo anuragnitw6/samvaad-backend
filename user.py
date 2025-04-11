@@ -189,9 +189,8 @@ class DeviceAPI(MethodView):
         devicename = request_data['devicename']
         macaddress = request_data['macaddress']
         charuuid = request_data['charuuid']
-        status = request_data['status']
 
-        result = self.db.edit_device(deviceid, devicename, macaddress, charuuid, status)
+        result = self.db.edit_device(deviceid, devicename, macaddress, charuuid)
 
         if not result:
             abort(400, message="Failed to update device")
