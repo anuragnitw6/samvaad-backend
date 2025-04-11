@@ -502,9 +502,9 @@ class UserDatabase:
         
     def get_moist_history_by_userid(self, userid):
         query = """
-        SELECT * FROM moist_history
+        SELECT * FROM MoistureHistory
         WHERE userid = %s
-        ORDER BY date DESC, time DESC
+        ORDER BY moistdate DESC
         """
         try:
             self.cursor.execute(query, (userid,))
