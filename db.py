@@ -614,7 +614,7 @@ class UserDatabase:
             print("Database Error:", e)
             return []
 
-    def add_notification(self, id, userid, title, description, notif_date, notif_type, status=False):
+    def add_notification(self, id, userid, title, description, notif_date, notif_type, status):
         try:
             # Convert the date string to datetime object
             notif_date_obj = datetime.strptime(notif_date, '%d/%m/%Y %H:%M')
