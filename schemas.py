@@ -141,7 +141,7 @@ class GetNotificationSchema(Schema):
     userid = fields.Str(required=True)
 
 class NotificationIdSchema(Schema):
-    notification_id = fields.Int(required=True)
+    notification_id = fields.Str(required=True)
 
 class UpdateNotificationStatusSchema(Schema):
     notification_id = fields.Str(required=True)
