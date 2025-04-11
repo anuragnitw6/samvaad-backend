@@ -508,40 +508,40 @@ class UserDatabase:
             print("Database Error:", e)
             return []
 
-    def update_user_profile(self, userid, fields_to_update):
-        try:
-            print("Incoming update fields:", fields_to_update)
+def update_user_profile(self, userid, fields_to_update):
+    try:
+        print("Incoming update fields:", fields_to_update)
 
-            # Explicitly convert booleans to integers (MySQL stores 1/0)
-            for key in ["qms", "bms", "aga", "pushnotification"]:
-                value = fields_to_update[key]
-                fields_to_update[key] = 1 if value else 0
+        # Explicitly convert booleans to integers (MySQL stores 1/0)
+        for key in ["qms", "bms", "aga", "pushnotification"]:
+            value = fields_to_update[key]
+            fields_to_update[key] = 1 if value else 0
 
-            query = """
-             UPDATE samvaad_user
-             SET qms = %s, bms = %s, aga = %s, pushnotification = %s
-             WHERE userid = %s
-            """
-            values = (
-              fields_to_update["qms"],
-              fields_to_update["bms"],
-              fields_to_update["aga"],
-              fields_to_update["pushnotification"],
-              userid
-            )
+        query = """
+            UPDATE samvaad_user
+            SET qms = %s, bms = %s, aga = %s, pushnotification = %s
+            WHERE userid = %s
+        """
+        values = (
+            fields_to_update["qms"],
+            fields_to_update["bms"],
+            fields_to_update["aga"],
+            fields_to_update["pushnotification"],
+            userid
+        )
 
-            print("Executing query:", query)
-            print("With values:", values)
+        print("Executing query:", query)
+        print("With values:", values)
 
-            self.cursor.execute(query, values)
-            self.conn.commit()
+        self.cursor.execute(query, values)
+        self.conn.commit()
 
-            if self.cursor.rowcount > 0:
-               # Fetch and return the updated user data
-               self.cursor.execute("SELECT * FROM samvaad_user WHERE userid = %s", (userid,))
-               user = self.cursor.fetchone()
+        if self.cursor.rowcount > 0:
+            # Fetch and return the updated user data
+            self.cursor.execute("SELECT * FROM samvaad_user WHERE userid = %s", (userid,))
+            user = self.cursor.fetchone()
 
-               if user:
+            if user:
                 return {
                     "userid": user["userid"],
                     "username": user["username"],
@@ -555,11 +555,13 @@ class UserDatabase:
                     "bms": bool(user["bms"]),
                     "limit": user["limit"]
                 }
+        else:
+            print("No rows updated.")
+            return False
 
-            except mysql.connector.Error as e:
-               print("Database Error:", e)
-               return False
-
+    except mysql.connector.Error as e:
+        print("Database Error:", e)
+        return False
         
         
     def add_device(self, userid, deviceid, devicename, macaddress, charuuid, status):
