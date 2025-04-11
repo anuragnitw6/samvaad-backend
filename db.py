@@ -556,9 +556,6 @@ class UserDatabase:
                     "limit": user["limit"]
                 }
 
-            print("No rows updated.")
-               return False
-
             except mysql.connector.Error as e:
                print("Database Error:", e)
                return False
