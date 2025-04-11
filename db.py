@@ -479,12 +479,12 @@ class UserDatabase:
             print("Database Error:", e)
             return None
         
-    def add_moist_history(self, userid, date, time, commodity, lot, stack, moisture, temperature, humidity, depo, deviceId):
+    def add_moist_history(self, userid, date, commodity, lot, stack, moisture, temperature, humidity, depo, deviceId):
         query = """
-        INSERT INTO moist_history (userid, date, time, commodity, lot, stack, moisture, temperature, humidity, depo, deviceId)
+        INSERT INTO moist_history (userid, date, commodity, lot, stack, moisture, temperature, humidity, depo, deviceId)
         VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
         """
-        values = (userid, date, time, commodity, lot, stack, moisture, temperature, humidity, depo, deviceId)
+        values = (userid, date, commodity, lot, stack, moisture, temperature, humidity, depo, deviceId)
 
         try:
             self.cursor.execute(query, values)
