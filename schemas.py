@@ -47,12 +47,12 @@ class SignupSchema(Schema):
         except ValueError:
             raise ValidationError("Invalid date format for last_login. Use 'DD/MM/YYYY HH:MM'.")
             
-class UpdateFlagSchema(Schema):
-    userid = fields.Str(required=True)
-    bms = fields.Bool(required=True)
-    pushnotification = fields.Bool(required=True)
-    aga = fields.Bool(required=True)
-    qms = fields.Bool(required=True)
+class UpdateProfileSchema(Schema):
+    userid = fields.String(required=True)
+    qms = fields.Boolean(required=True)
+    bms = fields.Boolean(required=True)
+    aga = fields.Boolean(required=True)
+    pushnotification = fields.Boolean(required=True)
 
 class UserLogoutSchema(Schema):
     user_id = fields.Str(required=True)
