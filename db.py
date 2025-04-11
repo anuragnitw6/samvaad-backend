@@ -481,8 +481,8 @@ class UserDatabase:
         
     def add_moist_history(self, userid, date, commodity, lot, stack, moisture, temperature, humidity, depo, deviceId):
         query = """
-        INSERT INTO moist_history (userid, date, commodity, lot, stack, moisture, temperature, humidity, depo, deviceId)
-        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+        INSERT INTO MoistureHistory (userid, date, commodity, lot, stack, moisture, temperature, humidity, depo, deviceId)
+        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
         """
         values = (userid, date, commodity, lot, stack, moisture, temperature, humidity, depo, deviceId)
 
