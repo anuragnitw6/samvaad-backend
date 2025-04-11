@@ -232,7 +232,7 @@ class NotificationView(MethodView):
     @blp.arguments(NotificationIdSchema, location="query")
     def delete(self, request_data):
         notification_id = request_data['notification_id']
-        result = self.db.delete_notification(notification_id)
+        result = self.db.delete_notification_by_id(notification_id)
         if not result:
             abort(404, message="Notification not found")
         return {"message": "Notification deleted"}, 200
