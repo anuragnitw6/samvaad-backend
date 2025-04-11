@@ -1,7 +1,7 @@
 from db import UserDatabase
 from flask.views import MethodView
 from flask_smorest import Blueprint, abort
-from schemas import AddAudioSchema, AddDeviceSchema, AddFavouriteSchema, AddMoistHistorySchema, AddNotificationSchema, CreateShopSchema, EditDeviceSchema, GetCartSchema, GetDevicesByUserIdSchema, GetFavouriteSchema, GetHomepage, GetMoistHistorySchema, GetNotificationSchema, GuestQuerySchema, HomepageSchema, NotificationIdSchema, PlaceOrderSchema, PlanStatusQuerySchema, RemoveFavouriteSchema, RestaurantDetailSchema, SignupSchema, SignupQuerySchema, LoginQuerySchema, LoginSchema, SubscribeQuerySchema, SubscribeSchema, SuccessMessageSchema, UpdateNotificationStatusSchema, UpdateProfileSchema, UserDeleteSchema, UserDetailSchema, UserListSchema, UserLoginSchema, UserLogoutSchema, UserSignupSchema, ViewDeviceHistorySchema, VisitorLoginQuerySchema
+from schemas import AddAudioSchema, AddDeviceSchema, AddFavouriteSchema, AddMoistHistorySchema, AddNotificationSchema, CreateShopSchema, EditDeviceSchema, GetCartSchema, GetDevicesByUserIdSchema, GetFavouriteSchema, GetHomepage, GetMoistHistorySchema, GetNotificationSchema, GuestQuerySchema, HomepageSchema, NotificationIdSchema, PlaceOrderSchema, PlanStatusQuerySchema, RemoveFavouriteSchema, RestaurantDetailSchema, SignupSchema, SignupQuerySchema, LoginQuerySchema, LoginSchema, SubscribeQuerySchema, SubscribeSchema, SuccessMessageSchema, UpdateNotificationStatusSchema, UserDeleteSchema, UserDetailSchema, UserListSchema, UserLoginSchema, UserLogoutSchema, UserSignupSchema, ViewDeviceHistorySchema, VisitorLoginQuerySchema
 import hashlib
 from flask_jwt_extended import create_access_token, jwt_required, get_jwt
 #from blocklist import BLOCKLIST
