@@ -91,8 +91,8 @@ class UserLogin(MethodView):
             abort(404, message="Page Not Found")
         return result, 200
         
-@blp.route("/update_user")
-class UserProfileUpdate(MethodView):
+@blp.route("/update_flag")
+class UserFlagUpdate(MethodView):
     def __init__(self):
         self.db = UserDatabase()
 
@@ -101,12 +101,8 @@ class UserProfileUpdate(MethodView):
         print("Incoming update payload:", request_data)
 
         userid = request_data.pop("userid", None)
-
         if not userid:
             abort(400, message="User ID is required")
-
-        if not request_data:
-            abort(400, message="No fields provided to update")
 
         result = self.db.update_user_profile(userid, request_data)
 
@@ -114,8 +110,6 @@ class UserProfileUpdate(MethodView):
             return result, 200
         else:
             abort(400, message="Failed to update user profile")
-
-
     
 @blp.route("/add_moist")
 class MoistData(MethodView):
