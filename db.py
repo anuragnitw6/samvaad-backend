@@ -657,8 +657,8 @@ class UserDatabase:
             print("Database Error (delete_notification_by_id):", e)
             return False
         
-    def mark_notification_as_read(self, notif_id):
-        query = "UPDATE notification SET status = TRUE WHERE id = %s"
+    def mark_notification_as_read(self, notif_id, status):
+        query = "UPDATE notification SET status = FALSE WHERE id = %s"
         try:
             self.cursor.execute(query, (notif_id,))
             self.conn.commit()
