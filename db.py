@@ -615,11 +615,17 @@ class UserDatabase:
             return []
 
     def add_notification(self, userid, title, description, notif_date, notif_type, status=False):
+        try:
+            # Convert the date string to datetime object
+            notif_date_obj = datetime.strptime(notif_date, '%d/%m/%Y %H:%M')
+        except ValueError as ve:
+            print("Date format error:", ve)
+            return False
         query = """
         INSERT INTO notification (userid, title, description, date, type, status)
         VALUES (%s, %s, %s, %s, %s, %s)
         """
-        values = (userid, title, description, notif_date, notif_type, status)
+        values = (userid, title, description, notif_date_obj, notif_type, status)
         try:
             self.cursor.execute(query, values)
             self.conn.commit()
