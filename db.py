@@ -588,7 +588,7 @@ class UserDatabase:
             print("Database Error:", e)
             return []
 
-    def edit_device(self, deviceid, devicename=None, macaddress=None, charuuid=None, status=None):
+    def edit_device(self, deviceid, devicename=None, macaddress=None, charuuid=None):
         updates = []
         values = []
 
@@ -601,9 +601,6 @@ class UserDatabase:
         if charuuid is not None:
             updates.append("charuuid = %s")
             values.append(charuuid)
-        if status is not None:
-            updates.append("status = %s")
-            values.append(status)
 
         values.append(deviceid)
 
