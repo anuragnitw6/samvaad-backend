@@ -125,9 +125,16 @@ class AddNotificationSchema(Schema):
     userid = fields.Str(required=True)
     title = fields.Str(required=True)
     description = fields.Str(required=True)
-    date = fields.Str(required=True)
+    notif_date = fields.Str(required=True)
     notif_type = fields.Str(required=True)
     status = fields.Boolean(required=True)
+     @validates('notif_date')
+    def validate_notif_date(self, value):
+        try:
+            datetime.strptime(value, '%d/%m/%Y %H:%M')
+        except ValueError:
+            raise ValidationError("Invalid date format for created_at. Use 'DD/MM/YYYY HH:MM'.")
+
 
 class GetNotificationSchema(Schema):
     userid = fields.Str(required=True)
