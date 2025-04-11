@@ -638,7 +638,7 @@ class UserDatabase:
         query = """
         SELECT * FROM notification
         WHERE userid = %s
-        ORDER BY date DESC, time DESC
+        ORDER BY date DESC
         """
         try:
             self.cursor.execute(query, (userid,))
