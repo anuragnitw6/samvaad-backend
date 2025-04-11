@@ -164,7 +164,7 @@ class DeviceAPI(MethodView):
         charuuid = request_data['charuuid']
         status = request_data['status']
 
-        result = self.db.add_user_device(userid, deviceid, devicename, macaddress, charuuid, status)
+        result = self.db.add_device(userid, deviceid, devicename, macaddress, charuuid, status)
 
         if not result:
             abort(400, message="Failed to add device")
