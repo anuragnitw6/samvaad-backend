@@ -144,7 +144,7 @@ class NotificationIdSchema(Schema):
     notification_id = fields.Int(required=True)
 
 class UpdateNotificationStatusSchema(Schema):
-    notification_id = fields.Int(required=True)
+    notification_id = fields.Str(required=True)
     status = fields.Boolean(required=True)
 
 class CreateShopSchema(Schema):
