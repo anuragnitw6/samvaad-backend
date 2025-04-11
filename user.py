@@ -183,13 +183,13 @@ class DeviceAPI(MethodView):
         return {"devices": devices}, 200
 
     # Edit device details
-    @blp.arguments(EditDeviceSchema, location="query")
+    @blp.arguments(EditDeviceSchema, location="json")
     def put(self, request_data):
         deviceid = request_data['deviceid']
-        devicename = request_data.get('devicename')
-        macaddress = request_data.get('macaddress')
-        charuuid = request_data.get('charuuid')
-        status = request_data.get('status')
+        devicename = request_data['devicename']
+        macaddress = request_data['macaddress']
+        charuuid = request_data['charuuid']
+        status = request_data['status']
 
         result = self.db.edit_device(deviceid, devicename, macaddress, charuuid, status)
 
