@@ -614,12 +614,12 @@ class UserDatabase:
             print("Database Error:", e)
             return []
 
-    def add_notification(self, userid, title, description, date, notif_type, status=False):
+    def add_notification(self, userid, title, description, notif_date, notif_type, status=False):
         query = """
         INSERT INTO notification (userid, title, description, date, type, status)
         VALUES (%s, %s, %s, %s, %s, %s)
         """
-        values = (userid, title, description, date, notif_type, status)
+        values = (userid, title, description, notif_date, notif_type, status)
         try:
             self.cursor.execute(query, values)
             self.conn.commit()
