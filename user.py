@@ -241,7 +241,7 @@ class NotificationView(MethodView):
     def patch(self, request_data):
         notification_id = request_data['notification_id']
         status = request_data['status']
-        result = self.db.update_notification_status(notification_id, status)
+        result = self.db.mark_notification_as_read(notification_id, status)
         if not result:
             abort(400, message="Failed to update notification status")
         return {"message": "Notification status updated"}, 200
