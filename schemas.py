@@ -85,8 +85,7 @@ class LoginQuerySchema(Schema):
 class AddMoistHistorySchema(Schema):
     userid = fields.Str(required=True)
     id = fields.Str(required=True)
-    date = fields.Date(required=True)
-    time = fields.Time(required=True)
+    moistdate = fields.Str(required=True)
     commodity = fields.Str(required=True)
     lot = fields.Str(required=True)
     stack = fields.Str(required=True)
@@ -95,6 +94,13 @@ class AddMoistHistorySchema(Schema):
     humidity = fields.Float(required=True)
     depo = fields.Str(required=True)
     deviceId = fields.Str(required=True)
+    
+    @validates('moistdate')
+    def validate_moistdate(self, value):
+        try:
+            datetime.strptime(value, '%d/%m/%Y %H:%M')
+        except ValueError:
+            raise ValidationError("Invalid date format for created_at. Use 'DD/MM/YYYY HH:MM'.")
 
 class GetMoistHistorySchema(Schema):
     userid = fields.Str(required=True)
