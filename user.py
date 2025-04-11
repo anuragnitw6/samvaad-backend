@@ -96,7 +96,7 @@ class UserFlagUpdate(MethodView):
     def __init__(self):
         self.db = UserDatabase()
 
-    @blp.arguments(UpdateProfileSchema, location="json")
+    @blp.arguments(UpdateFlagSchema, location="json")
     def post(self, request_data):
         print("Incoming update payload:", request_data)
 
