@@ -481,10 +481,10 @@ class UserDatabase:
         
     def add_moist_history(self, id, userid, date, commodity, lot, stack, moisture, temperature, humidity, depo, deviceId):
         query = """
-        INSERT INTO MoistureHistory (userid, moistdate, commodity, lot, stack, moisture, temperature, humidity, depo, deviceId)
+        INSERT INTO MoistureHistory (userid, id, moistdate, commodity, lot, stack, moisture, temperature, humidity, depo, deviceId)
         VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
         """
-        values = (id, userid, date, commodity, lot, stack, moisture, temperature, humidity, depo, deviceId)
+        values = (userid, id, date, commodity, lot, stack, moisture, temperature, humidity, depo, deviceId)
 
         try:
             self.cursor.execute(query, values)
