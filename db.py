@@ -563,13 +563,13 @@ class UserDatabase:
             print("Database Error:", e)
             return False
         
-        
-    def add_device(self, userid, deviceid, devicename, macaddress, charuuid, status):
+    def add_device(self, userid, deviceid, devicename, macaddress, charuuid, status,
+               total_scan=0, above_limit=0, below_limit=0):
         query = """
-        INSERT INTO user_device (userid, deviceid, devicename, macaddress, charuuid, status)
-        VALUES (%s, %s, %s, %s, %s, %s)
+        INSERT INTO user_device (userid, deviceid, devicename, macaddress, charuuid, status, total_scan, above_limit, below_limit)
+        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)
         """
-        values = (userid, deviceid, devicename, macaddress, charuuid, status)
+        values = (userid, deviceid, devicename, macaddress, charuuid, status, total_scan, above_limit, below_limit)
         try:
             self.cursor.execute(query, values)
             self.conn.commit()
@@ -577,6 +577,7 @@ class UserDatabase:
         except mysql.connector.Error as e:
             print("Database Error:", e)
             return False
+
 
     def get_devices_by_userid(self, userid):
         query = "SELECT * FROM user_device WHERE userid = %s"
