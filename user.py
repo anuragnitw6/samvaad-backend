@@ -206,12 +206,13 @@ class DeviceAPI(MethodView):
     # Edit device details
     @blp.arguments(EditDeviceSchema, location="json")
     def put(self, request_data):
+        userid = request_data['userid']
         deviceid = request_data['deviceid']
         devicename = request_data['devicename']
         macaddress = request_data['macaddress']
         charuuid = request_data['charuuid']
 
-        result = self.db.edit_device(deviceid, devicename, macaddress, charuuid)
+        result = self.db.edit_device(userid, deviceid, devicename, macaddress, charuuid)
 
         if not result:
             abort(400, message="Failed to update device")
