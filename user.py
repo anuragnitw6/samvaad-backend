@@ -128,7 +128,7 @@ class PasswordUpdate(MethodView):
         result = self.db.update_user_password(userid, password)
 
         if result:
-            return result, 200
+            return {"message": "Password updated successfully"}, 200
         else:
             abort(400, message="Failed to update user profile")
     
