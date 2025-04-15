@@ -1,7 +1,7 @@
 from db import UserDatabase
 from flask.views import MethodView
 from flask_smorest import Blueprint, abort
-from schemas import AddAudioSchema, AddDeviceSchema, AddFavouriteSchema, AddMoistHistorySchema, AddNotificationSchema, CreateShopSchema, EditDeviceSchema, GetCartSchema, GetDevicesByUserIdSchema, GetFavouriteSchema, GetHomepage, GetMoistHistorySchema, GetNotificationSchema, GuestQuerySchema, HomepageSchema, NotificationIdSchema, PlaceOrderSchema, PlanStatusQuerySchema, RemoveFavouriteSchema, RestaurantDetailSchema, SignupSchema, SignupQuerySchema, LoginQuerySchema, LoginSchema, SubscribeQuerySchema, SubscribeSchema, SuccessMessageSchema, UpdateNotificationStatusSchema, UserDeleteSchema, UserDetailSchema, UserListSchema, UserLoginSchema, UpdateFlagSchema, UserLogoutSchema, UserSignupSchema, ViewDeviceHistorySchema, VisitorLoginQuerySchema
+from schemas import AddAudioSchema, AddDeviceSchema, AddFavouriteSchema, ForgotPasswordSchema, AddMoistHistorySchema, AddNotificationSchema, CreateShopSchema, EditDeviceSchema, GetCartSchema, GetDevicesByUserIdSchema, GetFavouriteSchema, GetHomepage, GetMoistHistorySchema, GetNotificationSchema, GuestQuerySchema, HomepageSchema, NotificationIdSchema, PlaceOrderSchema, PlanStatusQuerySchema, RemoveFavouriteSchema, RestaurantDetailSchema, SignupSchema, SignupQuerySchema, LoginQuerySchema, LoginSchema, SubscribeQuerySchema, SubscribeSchema, SuccessMessageSchema, UpdateNotificationStatusSchema, UserDeleteSchema, UserDetailSchema, UserListSchema, UserLoginSchema, UpdateFlagSchema, UserLogoutSchema, UserSignupSchema, ViewDeviceHistorySchema, VisitorLoginQuerySchema
 import hashlib
 from flask_jwt_extended import create_access_token, jwt_required, get_jwt
 #from blocklist import BLOCKLIST
@@ -105,6 +105,26 @@ class UserFlagUpdate(MethodView):
             abort(400, message="User ID is required")
 
         result = self.db.update_user_profile(userid, request_data)
+
+        if result:
+            return result, 200
+        else:
+            abort(400, message="Failed to update user profile")
+    
+@blp.route("/update_password")
+class PasswordUpdate(MethodView):
+    def __init__(self):
+        self.db = UserDatabase()
+
+    @blp.arguments(ForgotPasswordSchema, location="json")
+    def post(self, request_data):
+        print("Incoming update payload:", request_data)
+
+        userid = request_data.pop("userid", None)
+        if not userid:
+            abort(400, message="User ID is required")
+
+        result = self.db.update_user_password(userid, request_data)
 
         if result:
             return result, 200
