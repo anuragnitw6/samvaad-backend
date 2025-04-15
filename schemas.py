@@ -181,7 +181,7 @@ class UserDetailSchema(Schema):
     login_time = fields.DateTime(required=True)
 
 class ForgotPasswordSchema(Schema):
-    userid = fields.Str(required=True)
+    username = fields.Str(required=True)
     password = fields.Str(required=True)
     
 class UserDeleteSchema(Schema):
