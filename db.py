@@ -673,3 +673,14 @@ class UserDatabase:
             print("Database Error (mark_notification_as_read):", e)
             return False
 
+
+    def update_user_password(self, userid, request_data):
+        query = "UPDATE notification SET status = FALSE WHERE id = %s"
+        try:
+            self.cursor.execute(query, (notif_id,))
+            self.conn.commit()
+            return self.cursor.rowcount > 0
+        except mysql.connector.Error as e:
+            print("Database Error (mark_notification_as_read):", e)
+            return False
+
