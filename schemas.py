@@ -118,6 +118,7 @@ class GetDevicesByUserIdSchema(Schema):
     userid = fields.Str(required=True)
 
 class EditDeviceSchema(Schema):
+    userid = fields.Str(required=True)
     deviceid = fields.Str(required=True)
     devicename = fields.Str(required=False)
     macaddress = fields.Str(required=False)
