@@ -594,14 +594,14 @@ class UserDatabase:
             print("Database Error:", e)
             return []
 
-    def edit_device(self, deviceid, devicename, macaddress, charuuid):
+    def edit_device(self, userid, deviceid, devicename, macaddress, charuuid):
         
         query = """
         UPDATE user_device
         SET devicename = %s, macaddress = %s, charuuid = %s
-        WHERE deviceid = %s
+        WHERE deviceid = %s AND userid = %s
         """
-        values = (devicename, macaddress, charuuid, deviceid)
+        values = (devicename, macaddress, charuuid, deviceid, userid)
 
         try:
             self.cursor.execute(query, values)
