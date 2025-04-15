@@ -120,12 +120,12 @@ class PasswordUpdate(MethodView):
     def post(self, request_data):
         print("Incoming update payload:", request_data)
 
-        userid = request_data.get("userid")
+        username = request_data.get("username")
         password = request_data.get("password")
-        if not userid:
+        if not username:
             abort(400, message="User ID is required")
 
-        result = self.db.update_user_password(userid, password)
+        result = self.db.update_user_password(username, password)
 
         if result:
             return {"message": "Password updated successfully"}, 200
