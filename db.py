@@ -673,10 +673,14 @@ class UserDatabase:
             print("Database Error (mark_notification_as_read):", e)
             return False
 
-    def update_user_password(self, userid, new_password):
-        query = "UPDATE samvaad_user SET password = %s WHERE userid = %s"
+    def update_user_password(self, username, new_password):
+        query = """
+        UPDATE samvaad_user 
+        SET password = %s 
+        WHERE username = %s OR mobile = %s
+        """
         try:
-            self.cursor.execute(query, (new_password, userid))
+            self.cursor.execute(query, (new_password, username, username))
             self.conn.commit()
             return self.cursor.rowcount > 0
         except mysql.connector.Error as e:
