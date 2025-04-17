@@ -138,7 +138,7 @@ class MoistData(MethodView):
     def __init__(self):
         self.db = UserDatabase()
 
-    @blp.arguments(AddMoistHistorySchema, location="query")
+    @blp.arguments(AddMoistHistorySchema, location="json")
     def get(self, request_data):
         id = request_data['id']
         userid = request_data['userid']
