@@ -132,14 +132,14 @@ class PasswordUpdate(MethodView):
         else:
             abort(400, message="Failed to update user profile")
     
-@blp.route("/add_moist")
-class MoistData(MethodView):
+@blp.route("/add_moisture")
+class MoistureData(MethodView):
 
     def __init__(self):
         self.db = UserDatabase()
 
     @blp.arguments(AddMoistHistorySchema, location="json")
-    def get(self, request_data):
+    def post(self, request_data):
         id = request_data['id']
         userid = request_data['userid']
         date = request_data['moistdate']
@@ -158,6 +158,12 @@ class MoistData(MethodView):
             abort(400, message="Failed to add moist history")
 
         return {"message": "Moisture history added successfully"}, 201
+
+@blp.route("/add_moist")
+class MoistData(MethodView):
+
+    def __init__(self):
+        self.db = UserDatabase()
 
     @blp.arguments(GetMoistHistorySchema, location="query")
     def post(self, request_data):
