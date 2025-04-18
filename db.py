@@ -125,23 +125,24 @@ class UserDatabase:
                 return False
 
             total_scan, above_limit, below_limit = result
+            # Safely convert values to integers, handling None and string types
+            try:
+                total_scan = int(total_scan) if total_scan is not None else 0
+                above_limit = int(above_limit) if above_limit is not None else 0
+                below_limit = int(below_limit) if below_limit is not None else 0
+            except ValueError as ve:
+                print("Value conversion error:", ve)
+                return {
+                    "message": "Invalid data type in DB (not convertible to int)",
+                    "error": str(ve)
+                }
 
-            # Ensure the values are properly initialized to 0 if None or NULL
-            total_scan = total_scan if isinstance(total_scan, int) else 0
-            above_limit = above_limit if isinstance(above_limit, int) else 0
-            below_limit = below_limit if isinstance(below_limit, int) else 0
-
-            # Increment the counters based on the flag value
-            total_scan += 1  # Increment total_scan even if 0
+            # Increment values
+            total_scan += 1
             if flag:
                 above_limit += 1
             else:
                 below_limit += 1
-
-            # Ensure all values are integers before passing them into the update query
-            total_scan = int(total_scan)
-            above_limit = int(above_limit)
-            below_limit = int(below_limit)
             update_query = """
             UPDATE user_device
             SET total_scan = %s, above_limit = %s, below_limit = %s
