@@ -130,24 +130,6 @@ class UserDatabase:
             fetch_scan = total_scan
             fetch_above = above_limit
             fetch_below = below_limit
-            # Safely parse values to integers
-            def safe_int(val):
-                try:
-                    return int(val)
-                except (ValueError, TypeError):
-                    return 0  # fallback if string like "total_scan" is found
-            # Safely convert values to integers, handling None and string types
-            try:
-                total_scan = safe_int(total_scan)
-                above_limit = safe_int(above_limit)
-                below_limit = safe_int(below_limit)
-            except ValueError as ve:
-                print("Value conversion error:", ve)
-                return {
-                    "message": "Invalid data type in DB (not convertible to int)",
-                    "error": str(ve)
-                }
-
             # Increment values
             total_scan += 1
             if flag:
