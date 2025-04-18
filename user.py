@@ -110,6 +110,47 @@ class UserFlagUpdate(MethodView):
             return result, 200
         else:
             abort(400, message="Failed to update user profile")
+
+
+@blp.route("/update_user_data")
+class UserFlagUpdate(MethodView):
+    def __init__(self):
+        self.db = UserDatabase()
+
+    @blp.arguments(UpdateUserDataSchema, location="json")
+    def post(self, request_data):
+        print("Incoming update payload:", request_data)
+
+        userid = request_data.pop("userid", None)
+        if not userid:
+            abort(400, message="User ID is required")
+
+        result = self.db.update_user_data(userid, request_data)
+
+        if result:
+            return result, 200
+        else:
+            abort(400, message="Failed to update user profile")
+    
+@blp.route("/update_moist_limit")
+class UserFlagUpdate(MethodView):
+    def __init__(self):
+        self.db = UserDatabase()
+
+    @blp.arguments(UpdateMoistLimitSchema, location="json")
+    def post(self, request_data):
+        print("Incoming update payload:", request_data)
+
+        userid = request_data.pop("userid", None)
+        if not userid:
+            abort(400, message="User ID is required")
+
+        result = self.db.update_moist_limit(userid, request_data)
+
+        if result:
+            return result, 200
+        else:
+            abort(400, message="Failed to update user profile")
     
 @blp.route("/update_password")
 class PasswordUpdate(MethodView):
