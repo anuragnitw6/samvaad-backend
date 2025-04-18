@@ -124,9 +124,9 @@ class UserDatabase:
                 print("Device not found for update")
                 return False
 
-            total_scan = result[0]
-            above_limit = result[1]
-            below_limit = result[2]
+            total_scan = result["total_scan"]
+            above_limit = result["above_limit"]
+            below_limit = result["below_limit"]
             fetch_scan = total_scan
             fetch_above = above_limit
             fetch_below = below_limit
@@ -136,15 +136,15 @@ class UserDatabase:
                 above_limit += 1
             else:
                 below_limit += 1
-            # update_query = """
-            # UPDATE user_device
-            # SET total_scan = %s, above_limit = %s, below_limit = %s
-            # WHERE userid = %s AND deviceid = %s
-            # """
-            # update_values = (total_scan, above_limit, below_limit, userid, deviceid)
+            update_query = """
+            UPDATE user_device
+            SET total_scan = %s, above_limit = %s, below_limit = %s
+            WHERE userid = %s AND deviceid = %s
+            """
+            update_values = (total_scan, above_limit, below_limit, userid, deviceid)
 
-            # self.cursor.execute(update_query, update_values)
-            # self.conn.commit()
+            self.cursor.execute(update_query, update_values)
+            self.conn.commit()
 
             return {
                 "message": "Device scan updated successfully",
