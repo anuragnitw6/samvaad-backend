@@ -151,7 +151,7 @@ class UserFlagUpdate(MethodView):
             return result, 200
         else:
             abort(400, message="Failed to update user profile")
-            
+
 @blp.route("/update_device_scan")
 class DeviceScanUpdate(MethodView):
     def __init__(self):
@@ -159,18 +159,26 @@ class DeviceScanUpdate(MethodView):
 
     @blp.arguments(UpdateDeviceScanSchema, location="json")
     def post(self, request_data):
-        print("Incoming update payload:", request_data)
-        userid = request_data.get("userid")
-        if not userid:
-            abort(400, message="User ID is required")
+        try:
+            print("Incoming update payload:", request_data)
+            userid = request_data.get("userid")
+            if not userid:
+                abort(400, message="User ID is required")
 
-        result = self.db.update_device_scan(userid, request_data)
+            result = self.db.update_device_scan(userid, request_data)
 
-        if result:
-            return result, 200
-        else:
-            abort(400, message="Failed to update user profile")
-    
+            if result:
+                return result, 200
+            else:
+                abort(400, message="Failed to update user profile")
+
+        except ValidationError as e:
+            print("Validation error:", e.messages)  # This prints any schema validation errors
+            abort(400, message="Validation error: " + str(e.messages))
+        except Exception as e:
+            print("Error processing the request:", e)
+            abort(500, message="Internal Server Error")
+            
 @blp.route("/update_password")
 class PasswordUpdate(MethodView):
     def __init__(self):
