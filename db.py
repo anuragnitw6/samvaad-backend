@@ -125,11 +125,18 @@ class UserDatabase:
                 return False
 
             total_scan, above_limit, below_limit = result
+            
+            # Safely parse values to integers
+            def safe_int(val):
+                try:
+                    return int(val)
+                except (ValueError, TypeError):
+                    return 0  # fallback if string like "total_scan" is found
             # Safely convert values to integers, handling None and string types
             try:
-                total_scan = int(total_scan or 0)
-                above_limit = int(above_limit or 0)
-                below_limit = int(below_limit or 0)
+                total_scan = safe_int(total_scan)
+                above_limit = safe_int(above_limit)
+                below_limit = safe_int(below_limit)
             except ValueError as ve:
                 print("Value conversion error:", ve)
                 return {
