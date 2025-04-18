@@ -568,6 +568,100 @@ class UserDatabase:
         except mysql.connector.Error as e:
             print("Database Error:", e)
             return False
+
+    def update_user_data(self, userid, fields_to_update):
+        try:
+            print("Incoming update fields:", fields_to_update)
+            query = """
+            UPDATE samvaad_user
+            SET username = %s, password = %s, mobile = %s
+            WHERE userid = %s
+            """
+            values = (
+                fields_to_update["username"],
+                fields_to_update["password"],
+                fields_to_update["mobile"],
+                userid
+            )
+
+            print("Executing query:", query)
+            print("With values:", values)
+
+            self.cursor.execute(query, values)
+            self.conn.commit()
+
+            if self.cursor.rowcount > 0:
+                # Fetch and return the updated user data
+                self.cursor.execute("SELECT * FROM samvaad_user WHERE userid = %s", (userid,))
+                user = self.cursor.fetchone()
+
+                if user:
+                    return {
+                        "userid": user["userid"],
+                        "username": user["username"],
+                        "password": user["password"],
+                        "mobile": user["mobile"],
+                        "created_at": str(user.get("createdat")),
+                        "last_login": str(user.get("lastlogin")),
+                        "qms": bool(user["qms"]),
+                        "aga": bool(user["aga"]),
+                        "pushnotification": bool(user["pushnotification"]),
+                        "bms": bool(user["bms"]),
+                        "limit": user["limit"]
+                    }
+            else:
+                print("No rows updated.")
+                return False
+
+        except mysql.connector.Error as e:
+            print("Database Error:", e)
+            return False
+        
+    def update_moist_limit(self, userid, fields_to_update):
+        try:
+            print("Incoming update fields:", fields_to_update)
+            query = """
+            UPDATE samvaad_user
+            SET `limit` = %s
+            WHERE userid = %s
+            """
+            values = (
+                fields_to_update["limit"],
+                userid
+            )
+
+            print("Executing query:", query)
+            print("With values:", values)
+
+            self.cursor.execute(query, values)
+            self.conn.commit()
+
+            if self.cursor.rowcount > 0:
+                # Fetch and return the updated user data
+                self.cursor.execute("SELECT * FROM samvaad_user WHERE userid = %s", (userid,))
+                user = self.cursor.fetchone()
+
+                if user:
+                    return {
+                        "userid": user["userid"],
+                        "username": user["username"],
+                        "password": user["password"],
+                        "mobile": user["mobile"],
+                        "created_at": str(user.get("createdat")),
+                        "last_login": str(user.get("lastlogin")),
+                        "qms": bool(user["qms"]),
+                        "aga": bool(user["aga"]),
+                        "pushnotification": bool(user["pushnotification"]),
+                        "bms": bool(user["bms"]),
+                        "limit": user["limit"]
+                    }
+            else:
+                print("No rows updated.")
+                return False
+
+        except mysql.connector.Error as e:
+            print("Database Error:", e)
+            return False
         
     def add_device(self, userid, deviceid, devicename, macaddress, charuuid, status,
                total_scan=0, above_limit=0, below_limit=0):
