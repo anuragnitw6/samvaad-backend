@@ -54,6 +54,12 @@ class UpdateFlagSchema(Schema):
     aga = fields.Boolean(required=True)
     pushnotification = fields.Boolean(required=True)
 
+class UpdateUserDataSchema(Schema):
+    userid = fields.Str(required=True)
+    username = fields.Str(required=True)
+    password = fields.Str(required=True)
+    mobile = fields.Str(required=True)
+    
 class UserLogoutSchema(Schema):
     user_id = fields.Str(required=True)
     logout_time = fields.DateTime(required=True)
