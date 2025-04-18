@@ -103,8 +103,8 @@ class UserDatabase:
             return False
                 
     def update_device_scan(self, userid, data):
-        deviceid = data["deviceid"]
-        flag = data["flag"]
+        deviceid = data.get("deviceid")
+        flag = data.get("flag")
 
         if not deviceid or flag is None:
             print("Missing deviceid or flag")
