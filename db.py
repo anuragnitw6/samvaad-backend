@@ -124,7 +124,9 @@ class UserDatabase:
                 print("Device not found for update")
                 return False
 
-            total_scan, above_limit, below_limit = result
+            total_scan = result[0]
+            above_limit = result[1]
+            below_limit = result[2]
             fetch_scan = total_scan
             fetch_above = above_limit
             fetch_below = below_limit
