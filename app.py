@@ -7,6 +7,8 @@ from blocklist import BLOCKLIST
 from marshmallow import ValidationError
 app = Flask(__name__)
 app = Flask(__name__, template_folder='template')
+app.debug = True
+app.config['DEBUG'] = True
 
 app.config["PROPAGATE_EXCEPTIONS"] = True 
 app.config["API_TITLE"] = "Samvaad Rest API"
