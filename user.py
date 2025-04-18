@@ -160,8 +160,7 @@ class DeviceScanUpdate(MethodView):
     @blp.arguments(UpdateDeviceScanSchema, location="json")
     def post(self, request_data):
         print("Incoming update payload:", request_data)
-
-        userid = request_data.pop("userid", None)
+        userid = request_data.get("userid")
         if not userid:
             abort(400, message="User ID is required")
 
