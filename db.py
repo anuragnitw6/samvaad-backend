@@ -161,7 +161,19 @@ class UserDatabase:
             self.conn.commit()
 
             return {
-                "message": "Device scan updated successfully"
+                "message": "Device scan updated successfully",
+                "debug": {
+                    "fetched_values": {
+                        "total_scan": total_scan,
+                        "above_limit": above_limit,
+                        "below_limit": below_limit
+                    },
+                    "incremented_values": {
+                        "total_scan": total_scan,
+                        "above_limit": above_limit,
+                        "below_limit": below_limit
+                    }
+                }
             }
 
         except Exception as e:
