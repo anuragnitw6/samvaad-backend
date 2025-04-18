@@ -127,9 +127,9 @@ class UserDatabase:
             total_scan, above_limit, below_limit = result
             # Safely convert values to integers, handling None and string types
             try:
-                total_scan = int(total_scan) if total_scan is not None else 0
-                above_limit = int(above_limit) if above_limit is not None else 0
-                below_limit = int(below_limit) if below_limit is not None else 0
+                total_scan = int(total_scan or 0)
+                above_limit = int(above_limit or 0)
+                below_limit = int(below_limit or 0)
             except ValueError as ve:
                 print("Value conversion error:", ve)
                 return {
