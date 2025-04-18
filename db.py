@@ -125,7 +125,9 @@ class UserDatabase:
                 return False
 
             total_scan, above_limit, below_limit = result
-            fetch_scan, fetch_above, fetch_below = result
+            fetch_scan = total_scan
+            fetch_above = above_limit
+            fetch_below = below_limit
             # Safely parse values to integers
             def safe_int(val):
                 try:
