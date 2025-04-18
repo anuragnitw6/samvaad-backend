@@ -127,9 +127,11 @@ class UserDatabase:
             total_scan, above_limit, below_limit = result
 
             # Handle total_scan, above_limit, and below_limit correctly
-            total_scan = (total_scan or 0) + 1  # Increments even if 0
-            above_limit = (above_limit or 0) + 1 if flag else (above_limit or 0)
-            below_limit = (below_limit or 0) + 1 if not flag else (below_limit or 0)
+            total_scan = (total_scan + 1)  # Increments even if 0
+            if flag:
+                above_limit = (above_limit + 1)
+            else:
+                below_limit = (below_limit + 1)
             update_query = """
             UPDATE user_device
             SET total_scan = %s, above_limit = %s, below_limit = %s
