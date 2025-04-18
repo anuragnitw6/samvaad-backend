@@ -1,37 +1,10 @@
-# from flask import Flask, app, render_template
-
-# app = Flask(__name__, template_folder='template')
-
-# @app.route('/home')
-# def index():
-#     return render_template('index.html')
-
-# @app.route('/about')
-# def about():
-#     return render_template('about.html')
-
-# @app.route('/service')
-# def service():
-#     return render_template('service.html')
-
-# @app.route('/team')
-# def team():
-#     return render_template('team.html')
-
-# @app.route('/why')
-# def why():
-#     return render_template('why.html')
-    
-# @app.route('/login')
-# def login():
-#     return render_template('login.html')
 from flask import Flask
 # from Scripts.society import blp as SocietyBluePrint
 from user import blp as UserBluePrint
 from flask_smorest import Api 
 from flask_jwt_extended import JWTManager
 from blocklist import BLOCKLIST
-
+from marshmallow import ValidationError
 app = Flask(__name__)
 app = Flask(__name__, template_folder='template')
 
@@ -62,7 +35,9 @@ def revoked_token_callback(jwt_header, jwt_payload):
         401
     )
 
-
+@app.errorhandler(ValidationError)
+def handle_marshmallow_error(e):
+    return {"error": e.messages}, 400
 
 # api.register_blueprint(SocietyBluePrint)
 api.register_blueprint(UserBluePrint)
