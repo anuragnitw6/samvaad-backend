@@ -59,6 +59,10 @@ class UpdateUserDataSchema(Schema):
     username = fields.Str(required=True)
     password = fields.Str(required=True)
     mobile = fields.Str(required=True)
+
+class UpdateMoistLimitSchema(Schema):
+    userid = fields.Str(required=True)
+    limit = fields.Str(required=True)
     
 class UserLogoutSchema(Schema):
     user_id = fields.Str(required=True)
