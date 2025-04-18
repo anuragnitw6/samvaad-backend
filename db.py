@@ -125,7 +125,7 @@ class UserDatabase:
                 return False
 
             total_scan, above_limit, below_limit = result
-            
+            fetch_scan, fetch_above, fetch_below = result
             # Safely parse values to integers
             def safe_int(val):
                 try:
@@ -164,9 +164,9 @@ class UserDatabase:
                 "message": "Device scan updated successfully",
                 "debug": {
                     "fetched_values": {
-                        "total_scan": total_scan,
-                        "above_limit": above_limit,
-                        "below_limit": below_limit
+                        "total_scan": fetch_scan,
+                        "above_limit": fetch_above,
+                        "below_limit": fetch_below
                     },
                     "incremented_values": {
                         "total_scan": total_scan,
