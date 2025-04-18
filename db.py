@@ -150,10 +150,11 @@ class UserDatabase:
             }
 
         except Exception as e:
-            print("Database Error:", e)
             self.conn.rollback()
-            return False
-    
+            return {
+               "message": "Database error",
+               "error": str(e)
+            }
     def get_moist_history_by_userid(self, userid):
         query = """
         SELECT * FROM MoistureHistory
