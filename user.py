@@ -23,37 +23,6 @@ blp = Blueprint("Users", __name__, description="Operations on users")
 result_list = []
 
 
-# @blp.route("/guest")
-# class UserLogin(MethodView):
-
-#     def __init__(self):
-#         self.db = UserDatabase()
-    
-#     # @blp.response(200, OwnerLoginSucessSchema)
-#     @blp.arguments(GuestQuerySchema, location="query")
-#     def get(self, request_data):
-#         query = request_data['query']
-#         result = self.db.guest_search(query)
-        
-#         if result is None:
-#             abort(404, message="User doesn't exist")
-#         return result, 200
-    
-
-# @blp.route("/homepage")
-# class UserLogin(MethodView):
-
-#     def __init__(self):
-#         self.db = UserDatabase()
-    
-#     # @blp.response(200, GetHomepage)
-#     @blp.arguments(HomepageSchema, location="query")
-#     def get(self, request_data):
-#         query = request_data['locate']
-#         result = self.db.home_page(query)
-#         if result is None:
-#             abort(404, message="Page Not Found")
-#         return result, 200
     
 @blp.route("/add_user")
 class UserSignup(MethodView):
@@ -146,6 +115,26 @@ class UserFlagUpdate(MethodView):
             abort(400, message="User ID is required")
 
         result = self.db.update_moist_limit(userid, request_data)
+
+        if result:
+            return result, 200
+        else:
+            abort(400, message="Failed to update user profile")
+            
+@blp.route("/update_device_scan")
+class DeviceScanUpdate(MethodView):
+    def __init__(self):
+        self.db = UserDatabase()
+
+    @blp.arguments(UpdateDeviceScanSchema, location="json")
+    def post(self, request_data):
+        print("Incoming update payload:", request_data)
+
+        userid = request_data.pop("userid", None)
+        if not userid:
+            abort(400, message="User ID is required")
+
+        result = self.db.update_device_scan(userid, request_data)
 
         if result:
             return result, 200
