@@ -152,7 +152,7 @@ class UserDatabase:
                 "below_limit": below_limit
             }
 
-         except Exception as e:
+        except Exception as e:
             print("Database Error:", e)
             self.conn.rollback()
             return False
