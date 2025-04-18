@@ -131,11 +131,11 @@ class UserDatabase:
             above_limit = above_limit if above_limit is not None else 0
             below_limit = below_limit if below_limit is not None else 0
             # Increment the counters based on the flag value
-            total_scan += 1  # Increment total_scan even if 0
+            total_scan = 1  # Increment total_scan even if 0
             if flag:
-                above_limit += 1
+                above_limit = 1
             else:
-                below_limit += 1
+                below_limit = 1
             # Ensure all values are integers before passing them into the update query
             total_scan = int(total_scan)
             above_limit = int(above_limit)
