@@ -136,15 +136,15 @@ class UserDatabase:
                 above_limit += 1
             else:
                 below_limit += 1
-            update_query = """
-            UPDATE user_device
-            SET total_scan = %s, above_limit = %s, below_limit = %s
-            WHERE userid = %s AND deviceid = %s
-            """
-            update_values = (total_scan, above_limit, below_limit, userid, deviceid)
+            # update_query = """
+            # UPDATE user_device
+            # SET total_scan = %s, above_limit = %s, below_limit = %s
+            # WHERE userid = %s AND deviceid = %s
+            # """
+            # update_values = (total_scan, above_limit, below_limit, userid, deviceid)
 
-            self.cursor.execute(update_query, update_values)
-            self.conn.commit()
+            # self.cursor.execute(update_query, update_values)
+            # self.conn.commit()
 
             return {
                 "message": "Device scan updated successfully",
