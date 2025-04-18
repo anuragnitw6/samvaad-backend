@@ -108,8 +108,8 @@ class AddDeviceSchema(Schema):
 
 class UpdateDeviceScanSchema(Schema):
     userid = fields.Str(required=True)
-    moist = fields.Str(required=True)
     deviceid = fields.Str(required=True)
+    flag = fields.Boolean(required=True)
     
 class GetDevicesByUserIdSchema(Schema):
     userid = fields.Str(required=True)
