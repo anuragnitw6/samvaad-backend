@@ -440,11 +440,12 @@ class UserDatabase:
     def add_miller(self, request_data):
         millerid = request_data["millerid"]
         millername = request_data["millername"]
+        userid = request_data["userid"]
         query = """
-        INSERT INTO miller (millerid, millername)
-        VALUES (%s, %s)
+        INSERT INTO miller (millerid, millername, userid)
+        VALUES (%s, %s, %s)
         """
-        values = (millerid, millername)
+        values = (millerid, millername, userid)
         try:
             self.cursor.execute(query, values)
             self.conn.commit()
@@ -455,14 +456,14 @@ class UserDatabase:
 
     def get_miller(self, request_data):
         millerid = request_data.get("millerid")
-    
+        userid = request_data.get("userid")
         query = """
         SELECT commodity, depo, deviceId, humidity, id, lot, millerid,
         millername, moistdate, moisture, stack, temperature, userid
         FROM MoistureHistory
-        WHERE millerid = %s
+        WHERE millerid = %s AND userid = %s
         """
-        values = (millerid,)
+        values = (millerid, userid)
 
         try:
             self.cursor.execute(query, values)
