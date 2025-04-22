@@ -436,3 +436,19 @@ class UserDatabase:
         except mysql.connector.Error as e:
             print("Database Error (update_user_password):", e)
             return False
+
+    def add_miller(self, request_data):
+        millerid = request_data["millerid"]
+        millername = request_data["millername"]
+        query = """
+        INSERT INTO miller (millerid, millername)
+        VALUES (%s, %s)
+        """
+        values = (millerid, millername)
+        try:
+            self.cursor.execute(query, values)
+            self.conn.commit()
+            return True
+        except mysql.connector.Error as e:
+            print("Database Error (add_miller):", e)
+            return False
