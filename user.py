@@ -351,7 +351,7 @@ class CreateMillerView(MethodView):
 
     @blp.arguments(CreateMillerSchema, location="json")
     def post(self, request_data):
-        result = self.db.add_miller(**request_data)
+        result = self.db.add_miller(request_data)
         if not result:
             abort(400, message="Failed to add miller")
         return {"message": "Miller added successfully"}, 201
