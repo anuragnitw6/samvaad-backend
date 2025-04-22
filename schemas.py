@@ -171,3 +171,7 @@ class UserDeleteSchema(Schema):
 class UserSignupSchema(Schema):
     email = fields.Str(required=True)
     
+class CreateMillerSchema(Schema):
+    millerid = fields.Str(required=True)
+    millername = fields.Str(reqquired=True)
+    
