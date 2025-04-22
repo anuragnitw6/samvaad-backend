@@ -86,7 +86,8 @@ class AddMoistHistorySchema(Schema):
     humidity = fields.Float(required=True)
     depo = fields.Str(required=True)
     deviceId = fields.Str(required=True)
-    
+    millerid = fields.Str(required=True)
+    millername = fields.Str(required=True)
     @validates('moistdate')
     def validate_moistdate(self, value):
         try:
