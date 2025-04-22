@@ -467,9 +467,9 @@ class UserDatabase:
         try:
             self.cursor.execute(query, values)
             rows = self.cursor.fetchall()
-            columns = [col[0] for col in self.cursor.description]
-            result = [dict(zip(columns, row)) for row in rows]
-            return result
+            # columns = [col[0] for col in self.cursor.description]
+            # result = [dict(zip(columns, row)) for row in rows]
+            return rows
         except mysql.connector.Error as e:
             print("Database Error (get_moisture_history):", e)
             return []
