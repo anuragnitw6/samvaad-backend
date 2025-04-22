@@ -362,6 +362,6 @@ class CreateMillerView(MethodView):
         result = self.db.get_miller(request_data)
         if not result:
             abort(400, message="Failed to get miller")
-        return {"message": "Success"}, 201
+        return {"message": result}, 200
 
 
