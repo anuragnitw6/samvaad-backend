@@ -12,6 +12,7 @@ from schemas import (
     AddMoistHistorySchema,
     AddNotificationSchema,
     EditDeviceSchema,
+    GetMillerSchema,
     GetDevicesByUserIdSchema,
     GetMoistHistorySchema,
     GetNotificationSchema,
@@ -355,5 +356,12 @@ class CreateMillerView(MethodView):
         if not result:
             abort(400, message="Failed to add miller")
         return {"message": "Miller added successfully"}, 201
+        
+    @blp.arguments(GetMillerSchema, location="query")
+    def get(self, request_data):
+        result = self.db.get_miller(request_data)
+        if not result:
+            abort(400, message="Failed to get miller")
+        return {"message": "Success"}, 201
 
 
