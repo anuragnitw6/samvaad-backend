@@ -454,12 +454,16 @@ class UserDatabase:
             return False
 
     def get_miller(self, request_data):
-        millerid = request_data["millerid"]
+        millerid = request_data.get("millerid")
+    
         query = """
-        SELECT * FROM MoistureHistory
+        SELECT commodity, depo, deviceId, humidity, id, lot, millerid,
+        millername, moistdate, moisture, stack, temperature, userid
+        FROM MoistureHistory
         WHERE millerid = %s
         """
         values = (millerid,)
+
         try:
             self.cursor.execute(query, values)
             rows = self.cursor.fetchall()
