@@ -178,5 +178,4 @@ class CreateMillerSchema(Schema):
     userid = fields.Str(required=True)
 
 class GetMillerSchema(Schema):
-    millerid = fields.Str(required=True)
     userid = fields.Str(required=True)
