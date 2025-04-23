@@ -455,15 +455,13 @@ class UserDatabase:
             return False
 
     def get_miller(self, request_data):
-        millerid = request_data.get("millerid")
         userid = request_data.get("userid")
         query = """
-        SELECT commodity, depo, deviceId, humidity, id, lot, millerid,
-        millername, moistdate, moisture, stack, temperature, userid
-        FROM MoistureHistory
-        WHERE millerid = %s AND userid = %s
+        SELECT millerid, millername
+        FROM miller
+        WHERE userid = %s
         """
-        values = (millerid, userid)
+        values = (userid,)
 
         try:
             self.cursor.execute(query, values)
