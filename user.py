@@ -358,11 +358,9 @@ class CreateMillerView(MethodView):
             abort(400, message="Failed to add miller")
         return {"message": "Miller added successfully"}, 201
         
-    @blp.arguments(GetMillerSchema, location="query")
+    @blp.arguments(FetchMillerSchema, location="query")
     def get(self, request_data):
         result = self.db.get_miller(request_data)
         if not result:
             abort(400, message="Failed to get miller")
         return result, 200
-
-
