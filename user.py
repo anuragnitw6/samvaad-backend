@@ -13,6 +13,7 @@ from schemas import (
     AddNotificationSchema,
     EditDeviceSchema,
     GetMillerSchema,
+    FetchMillerSchema,
     GetDevicesByUserIdSchema,
     GetMoistHistorySchema,
     GetNotificationSchema,
