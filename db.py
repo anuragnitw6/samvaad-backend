@@ -456,12 +456,13 @@ class UserDatabase:
 
     def get_miller(self, request_data):
         userid = request_data.get("userid")
+        sampleid = request_data.get("sampleid")
         query = """
-        SELECT millerid, millername
-        FROM miller
-        WHERE userid = %s
+        SELECT millerid, millername, lot
+        FROM MoistureHistory
+        WHERE userid = %s AND lot = %s
         """
-        values = (userid,)
+        values = (userid, lot)
 
         try:
             self.cursor.execute(query, values)
