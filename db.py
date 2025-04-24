@@ -462,7 +462,7 @@ class UserDatabase:
         FROM MoistureHistory
         WHERE userid = %s AND lot = %s
         """
-        values = (userid, lot)
+        values = (userid, sampleid)
 
         try:
             self.cursor.execute(query, values)
