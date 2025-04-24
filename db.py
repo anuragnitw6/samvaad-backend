@@ -458,7 +458,7 @@ class UserDatabase:
         userid = request_data.get("userid")
         sampleid = request_data.get("sampleid")
         query = """
-        SELECT millerid, millername, lot
+        SELECT commodity, millername, lot
         FROM MoistureHistory
         WHERE userid = %s AND lot = %s
         """
