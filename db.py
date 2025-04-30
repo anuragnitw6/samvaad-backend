@@ -473,3 +473,22 @@ class UserDatabase:
         except mysql.connector.Error as e:
             print("Database Error (get_moisture_history):", e)
             return []
+
+    def get_miller_of_userid(self, request_data):
+        userid = request_data.get("userid")
+        query = """
+        SELECT millername, millerid
+        FROM miller
+        WHERE userid = %s
+        """
+        values = (userid, )
+
+        try:
+            self.cursor.execute(query, values)
+            rows = self.cursor.fetchall()
+            # columns = [col[0] for col in self.cursor.description]
+            # result = [dict(zip(columns, row)) for row in rows]
+            return rows
+        except mysql.connector.Error as e:
+            print("Database Error (get_moisture_history):", e)
+            return []
