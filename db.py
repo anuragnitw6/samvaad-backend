@@ -495,7 +495,7 @@ class UserDatabase:
 
 
     def generate_qms_of_userid(self, request_data):
-        qms_id = generate_random_qms_id()
+        qms_id = self.generate_random_qms_id()
         userid = request_data.get("userid")
 
         # insert_query = """
