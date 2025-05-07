@@ -92,7 +92,7 @@ class UserDatabase:
             return False
         query = """
         INSERT INTO MoistureHistory (userid, id, moistdate, commodity, lot, stack, moisture, temperature, humidity, depo, deviceId, qms_id)
-        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
         """
         values = (userid, id, moistdate_obj, commodity, lot, stack, moisture, temperature, humidity, depo, deviceId, qmsid)
 
