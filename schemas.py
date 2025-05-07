@@ -183,3 +183,6 @@ class GetMillerSchema(Schema):
 class FetchMillerSchema(Schema):
     userid = fields.Str(required=True)
     sampleid = fields.Str(required=True)
+
+class GenerateQmsSchema(Schema):
+    userid = fields.Str(required=True)
