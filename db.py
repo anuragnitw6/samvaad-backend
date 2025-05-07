@@ -83,7 +83,7 @@ class UserDatabase:
             print("Database Error:", e)
             return None
         
-    def add_moist_history(self, id, userid, date, commodity, lot, stack, moisture, temperature, humidity, depo, deviceId, qmsid):
+    def add_moist_history(self, id, userid, date, commodity, lot, stack, moisture, temperature, humidity, depo, deviceId, qmsid, millerid, millername):
         try:
             # Convert the date string to a datetime object using the expected format
             moistdate_obj = datetime.strptime(date, '%d/%m/%Y %H:%M')
@@ -91,10 +91,10 @@ class UserDatabase:
             print("Date format error:", ve)
             return False
         query = """
-        INSERT INTO MoistureHistory (userid, id, moistdate, commodity, lot, stack, moisture, temperature, humidity, depo, deviceId, qms_id)
+        INSERT INTO MoistureHistory (userid, id, moistdate, commodity, lot, stack, moisture, temperature, humidity, depo, deviceId, millerid, millername, qms_id)
         VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
         """
-        values = (userid, id, moistdate_obj, commodity, lot, stack, moisture, temperature, humidity, depo, deviceId, qmsid)
+        values = (userid, id, moistdate_obj, commodity, lot, stack, moisture, temperature, humidity, depo, deviceId, millerid, millername, qmsid)
 
         try:
             self.cursor.execute(query, values)
