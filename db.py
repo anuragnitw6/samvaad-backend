@@ -492,3 +492,27 @@ class UserDatabase:
         except mysql.connector.Error as e:
             print("Database Error (get_moisture_history):", e)
             return []
+
+
+    def generate_qms_of_userid(self, request_data):
+        qms_id = generate_random_qms_id()
+        userid = request_data.get("userid")
+
+        # insert_query = """
+        # INSERT INTO MoistureHistory (qms_id, userid)
+        # VALUES (%s, %s)
+        # """
+        # values = (qms_id, userid)
+
+        try:
+            self.cursor.execute(insert_query, values)
+            self.conn.commit()
+            return {"qms_id": qms_id}
+        except mysql.connector.Error as e:
+            print("Database Error (generate_qms_of_userid):", e)
+            return {"error": "Database insertion failed"}
+            
+     def generate_random_qms_id():
+        letters = ''.join(random.choices(string.ascii_uppercase, k=4))  # 4 letters
+        numbers = ''.join(random.choices(string.digits, k=3))           # 3 numbers
+        return f"samvaad-{letters}-{numbers}"
