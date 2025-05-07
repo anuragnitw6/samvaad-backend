@@ -531,9 +531,12 @@ class UserDatabase:
         try:
             self.cursor.execute(select_query, (userid,))
             result = self.cursor.fetchone()
-            return {"qms_id": result[0]} if result else {"error": "No QMS ID found"}
+        
+            if result:  # Check if result is not None and has a value
+                return {"qms_id": result[0]}  # result[0] is the qms_id
+            else:
+                return {"error": "No QMS ID found for the given user"}
+    
         except mysql.connector.Error as e:
             print("Database Error (get_qms_of_userid):", e)
-            return {"error": "Database query failed"}
-
-            
+            return {"error": "Database query failed", "details": str(e)}
