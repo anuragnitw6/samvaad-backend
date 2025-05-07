@@ -512,7 +512,7 @@ class UserDatabase:
             print("Database Error (generate_qms_of_userid):", e)
             return {"error": "Database insertion failed"}
             
-    def generate_random_qms_id():
+    def generate_random_qms_id(self):
         letters = ''.join(random.choices(string.ascii_uppercase, k=4))  # 4 letters
         numbers = ''.join(random.choices(string.digits, k=3))           # 3 numbers
         return f"samvaad-{letters}-{numbers}"
