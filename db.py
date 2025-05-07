@@ -501,10 +501,10 @@ class UserDatabase:
         userid = request_data.get("userid")
 
         insert_query = """
-        INSERT INTO MoistureHistory (qms_id, userid)
-        VALUES (%s, %s)
+        INSERT INTO UserQms (qms_id, userid, qmsstatus)
+        VALUES (%s, %s, %s)
         """
-        values = (qms_id, userid)
+        values = (qms_id, userid, True)
 
         try:
             self.cursor.execute(insert_query, values)
