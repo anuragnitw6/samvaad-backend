@@ -13,6 +13,7 @@ from schemas import (
     AddNotificationSchema,
     EditDeviceSchema,
     GetMillerSchema,
+    GenerateQmsSchema,
     FetchMillerSchema,
     GetDevicesByUserIdSchema,
     GetMoistHistorySchema,
@@ -373,6 +374,18 @@ class GetMillerView(MethodView):
     @blp.arguments(GetMillerSchema, location="query")
     def get(self, request_data):
         result = self.db.get_miller_of_userid(request_data)
+        if not result:
+            abort(400, message="Failed to get miller")
+        return result, 200
+
+@blp.route("/generate_qms")
+class GenerateQmsView(MethodView):
+    def __init__(self):
+        self.db = UserDatabase()
+        
+    @blp.arguments(GenerateQmsSchema, location="query")
+    def get(self, request_data):
+        result = self.db.generate_qms_of_userid(request_data)
         if not result:
             abort(400, message="Failed to get miller")
         return result, 200
