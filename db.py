@@ -462,9 +462,9 @@ class UserDatabase:
         query = """
         SELECT commodity, millername, lot
         FROM MoistureHistory
-        WHERE userid = %s AND lot = %s
+        WHERE userid = %s AND (lot = %s OR qms_id = %s)
         """
-        values = (userid, sampleid)
+        values = (userid, sampleid, sampleid)
 
         try:
             self.cursor.execute(query, values)
