@@ -518,3 +518,22 @@ class UserDatabase:
         letters = ''.join(random.choices(string.ascii_lowercase, k=4))  # 4 letters
         numbers = ''.join(random.choices(string.digits, k=3))           # 3 numbers
         return f"samvaad-{letters}-{numbers}"
+
+    def get_qms_of_userid(self, request_data):
+        userid = request_data.get("userid")
+
+        select_query = """
+        SELECT qms_id FROM UserQms
+        WHERE userid = %s
+        ORDER BY created_at DESC
+        LIMIT 1
+        """
+        try:
+            self.cursor.execute(select_query, (userid,))
+            result = self.cursor.fetchone()
+            return {"qms_id": result[0]} if result else {"error": "No QMS ID found"}
+        except mysql.connector.Error as e:
+            print("Database Error (get_qms_of_userid):", e)
+            return {"error": "Database query failed"}
+
+            
