@@ -224,8 +224,10 @@ class MoistureData(MethodView):
         humidity = request_data['humidity']
         depo = request_data['depo']
         deviceId = request_data['deviceId']
+        millerid = request_data['millerid']
+        millername = request_data['millername']
         qmsid = request_data['qms_id']
-        result = self.db.add_moist_history(id, userid, date, commodity, lot, stack, moisture, temperature, humidity, depo, deviceId, qmsid)
+        result = self.db.add_moist_history(id, userid, date, commodity, lot, stack, moisture, temperature, humidity, depo, deviceId, millerid, millername, qmsid)
 
         if not result:
             abort(400, message="Failed to add moist history")
