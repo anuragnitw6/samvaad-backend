@@ -507,8 +507,8 @@ class UserDatabase:
         # values = (qms_id, userid)
 
         try:
-            self.cursor.execute(insert_query, values)
-            self.conn.commit()
+            # self.cursor.execute(insert_query, values)
+            # self.conn.commit()
             return {"qms_id": qms_id}
         except mysql.connector.Error as e:
             print("Database Error (generate_qms_of_userid):", e)
