@@ -389,3 +389,15 @@ class GenerateQmsView(MethodView):
         if not result:
             abort(400, message="Failed to get miller")
         return result, 200
+
+@blp.route("/get_qms_id")
+class GetQmsView(MethodView):
+    def __init__(self):
+        self.db = UserDatabase()
+        
+    @blp.arguments(GenerateQmsSchema, location="query")
+    def get(self, request_data):
+        result = self.db.get_qms_of_userid(request_data)
+        if not result:
+            abort(400, message="Failed to get miller")
+        return result, 200
