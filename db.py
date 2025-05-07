@@ -533,7 +533,7 @@ class UserDatabase:
             result = self.cursor.fetchone()
         
             if result:  # Check if result is not None and has a value
-                return {"qms_id": result[0]}  # result[0] is the qms_id
+                return {"qms_id": result["qms_id"]}  # result[0] is the qms_id
             else:
                 return {"error": "No QMS ID found for the given user"}
     
