@@ -187,3 +187,7 @@ class FetchMillerSchema(Schema):
 
 class GenerateQmsSchema(Schema):
     userid = fields.Str(required=True)
+    millerid = fields.Str(required=True)
+    millername = fields.Str(required=True)
+    commodity = fields.Str(required=True)
+    sampleid = fields.Str(required=True)
