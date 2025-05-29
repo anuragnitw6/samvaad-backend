@@ -403,3 +403,13 @@ class GetQmsView(MethodView):
         if not result:
             abort(400, message="Failed to get miller")
         return result, 200
+        
+@blp.route("/firmware.bin")
+class FirmwareDownloadView(MethodView):
+    def get(self):
+        try:
+            # Assuming firmware is in a "firmware" subfolder in project root
+            firmware_folder = os.path.join(current_app.root_path, 'firmware')
+            return send_from_directory(firmware_folder, 'firmware.bin', as_attachment=True)
+        except FileNotFoundError:
+            abort(404, message="❌ firmware.bin not found")
