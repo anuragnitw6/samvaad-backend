@@ -9,7 +9,8 @@ from marshmallow import ValidationError
 # app = Flask(__name__)
 app = Flask(__name__, template_folder='template')
 # CORS(app)
-CORS(app, origins=["https://neuronwise.in"], supports_credentials=True)
+# CORS(app, origins=["https://neuronwise.in"], supports_credentials=True)
+CORS(app, resources={r"/samvaad-ui/*": {"origins": "https://neuronwise.in"}})
 app.debug = True
 app.config['DEBUG'] = True
 
