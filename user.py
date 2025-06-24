@@ -236,7 +236,7 @@ class MoistureData(MethodView):
 
         return {"message": "Moisture history added successfully"}, 201
 
-@blp.route("/add_moist")
+@blp.route("/add_moist", methods=["POST"])
 class MoistData(MethodView):
 
     def __init__(self):
