@@ -415,3 +415,8 @@ class FirmwareDownloadView(MethodView):
             return send_from_directory(firmware_folder, 'firmware.bin', as_attachment=True)
         except FileNotFoundError:
             abort(404, message="❌ firmware.bin not found")
+            
+            
+@app.route('/nw_samvaad')
+def index():
+    return render_template('nw_samvaad.html')

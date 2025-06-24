@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Dashboard</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      display: flex;
+    }
+
+    .sidebar {
+      width: 220px;
+      background-color: #2c3e50;
+      color: white;
+      height: 100vh;
+      padding-top: 20px;
+      position: fixed;
+    }
+
+    .sidebar a {
+      display: block;
+      padding: 15px;
+      color: white;
+      text-decoration: none;
+    }
+
+    .sidebar a:hover {
+      background-color: #34495e;
+    }
+
+    .content {
+      margin-left: 220px;
+      padding: 20px;
+      width: 100%;
+    }
+
+    .section {
+      display: none;
+    }
+
+    .section.active {
+      display: block;
+    }
+
+    .card {
+      display: inline-block;
+      background: #f4f4f4;
+      margin: 10px;
+      padding: 20px;
+      border-radius: 5px;
+      width: 180px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 15px;
+    }
+
+    th, td {
+      border: 1px solid #ddd;
+      padding: 8px;
+    }
+
+    th {
+      background-color: #2980b9;
+      color: white;
+    }
+
+    .pagination {
+      margin-top: 10px;
+    }
+
+    .pagination button {
+      margin: 2px;
+      padding: 6px 10px;
+      border: 1px solid #ccc;
+      background-color: white;
+      cursor: pointer;
+    }
+
+    .pagination button.active {
+      background-color: #2980b9;
+      color: white;
+    }
+
+    .filter-bar {
+      margin: 15px 0;
+    }
+
+    .filter-bar input {
+      margin-right: 10px;
+      padding: 5px;
+    }
+
+    .export-btn {
+      margin-left: 10px;
+      padding: 6px 12px;
+      background-color: #2ecc71;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+
+    canvas {
+      max-width: 600px;
+      margin-top: 20px;
+    }
+    .sidebar a.active {
+      background-color: #007bff;
+      color: white;
+    }
+    .analytics-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+
+    .date-range label {
+      margin-right: 15px;
+      font-size: 14px;
+    }
+
+    .date-range input[type="date"] {
+      margin-left: 5px;
+      padding: 5px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+
+    .chip-filters {
+      display: flex;
+      gap: 10px;
+    }
+
+    .chip {
+      padding: 8px 16px;
+      border-radius: 16px;
+      border: none;
+      background-color: #e0e0e0;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .chip:hover {
+      background-color: #d5d5d5;
+    }
+
+    .chip.active {
+      background-color: #007bff;
+      color: white;
+    }
+    .charts-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      margin-top: 20px;
+      flex-wrap: wrap;
+    }
+
+    #moistureChart, #humidityChart {
+      background-color: #f9f9f9;
+      border-radius: 8px;
+      padding: 8px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+      height: 180px;   /* You can tweak this value */
+      width: 45%;      /* Adjust width for layout */
+    }
+    #users {
+      padding: 20px;
+    }
+
+    #addUserForm {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    #addUserForm input, #addUserForm select, #addUserForm button {
+      padding: 8px;
+      font-size: 14px;
+    }
+
+    #userTable {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    #userTable th, #userTable td {
+      padding: 10px;
+      border-bottom: 1px solid #ddd;
+    }
+
+    #userTable button {
+      padding: 6px 12px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .revoke-btn {
+      background-color: #e74c3c;
+      color: white;
+    }
+
+    .request-btn {
+      background-color: #3498db;
+      color: white;
+    }
+
+
+  </style>
+</head>
+<body>
+  <div class="sidebar">
+    <a href="#" onclick="showSection('home')">Home</a>
+    <a href="#" onclick="showSection('readings')">Readings</a>
+    <a href="#" onclick="showSection('analytics')">Analytics</a>
+    <a href="#" onclick="showSection('users')">Users</a>
+  </div>
+
+  <div class="content">
+    <div id="home" class="section active">
+      <h2>Dashboard Home</h2>
+      <div class="card">Total Scans: 100</div>
+      <div class="card">Above Limit: 20</div>
+      <div class="card">Below Limit: 70</div>
+      <div class="card">User Limit: 10</div>
+
+      <h3>Last 10 Readings</h3>
+      <table>
+        <tr><th>Time</th><th>Date</th><th>Moisture</th></tr>
+        <tr><td>00:00:00</td><td>2025-06-24</td><td>13%</td></tr>
+      </table>
+    </div>
+
+    <div id="readings" class="section">
+      <h2>All Readings</h2>
+      <div class="filter-bar">
+        <input type="text" id="searchInput" placeholder="Search...">
+        <input type="date" id="startDate">
+        <input type="date" id="endDate">
+        <button class="export-btn" onclick="exportToCSV()">Export CSV</button>
+      </div>
+      <table id="readingsTable">
+       <thead>
+        <tr>
+          <th>#</th>
+          <th>Commodity</th>
+          <th>Lot</th>
+          <th>Stack</th>
+          <th>Moisture</th>
+          <th>Humidity</th>
+          <th>Temp</th>
+          <th>Date</th>
+          <th>Depo</th>
+          </tr>
+         </thead>
+        <tbody id="readingsTableBody"></tbody>
+       </table>
+
+      <div class="pagination" id="pagination"></div>
+    </div>
+
+    <div id="analytics" class="section">
+    <div class="analytics-header">
+        
+     <div class="date-range">
+      <label>Start Date: <input type="date" id="start-date"></label>
+      <label>End Date: <input type="date" id="end-date"></label>
+     </div>
+     <div class="chip-filters">
+      <button class="chip active" onclick="setAnalyticsFilter('daily')">Daily</button>
+      <button class="chip" onclick="setAnalyticsFilter('weekly')">Weekly</button>
+      <button class="chip" onclick="setAnalyticsFilter('monthly')">Monthly</button>
+     </div>
+    
+    </div>
+    <div class="charts-row">
+      <canvas id="moistureChart" height="150" width="400"></canvas>
+      <canvas id="humidityChart" height="150" width="400"></canvas>
+    </div>
+
+
+    </div>
+
+    <!--<div id="users" class="section">-->
+    <!--  <h2>User Access</h2>-->
+    <!--  <ul>-->
+    <!--    <li>User A - Admin</li>-->
+    <!--    <li>User B - Viewer</li>-->
+    <!--    <li>User C - Editor</li>-->
+    <!--  </ul>-->
+    <!--</div>-->
+    <div id="users" class="section">
+  <h2>User Access Management</h2>
+
+  <form id="addUserForm">
+    <input type="text" id="newUserName" placeholder="Enter username" required>
+    <select id="newUserRole">
+      <option value="Viewer">Viewer</option>
+      <option value="Editor">Editor</option>
+      <option value="Admin">Admin</option>
+    </select>
+    <button type="submit">Grant Access</button>
+  </form>
+
+      <table id="userTable">
+        <thead>
+         <tr>
+            <th>Username</th>
+            <th>Role</th>
+            <th>Actions</th>
+         </tr>
+        </thead>
+        <tbody>
+         <tr>
+           <td>User A</td>
+           <td>Admin</td>
+           <td><button class="revoke-btn">Revoke</button></td>
+         </tr>
+         <tr>
+           <td>User B</td>
+           <td>Viewer</td>
+           <td><button class="request-btn">Request Access</button></td>
+         </tr>
+         <tr>
+           <td>User C</td>
+           <td>Editor</td>
+           <td><button class="revoke-btn">Revoke</button></td>
+         </tr>
+       </tbody>
+      </table>
+    </div>
+
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script>
+  const sections = document.querySelectorAll('.section');
+  function showSection(id) {
+    sections.forEach(sec => sec.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+  }
+
+  const apiUrl = "http://3.108.220.219:5000/add_moist";
+  const userid = "5f30067e12fa4c2d9515bd8772f025eb";
+  const rowsPerPage = 20;
+  let allReadings = [];
+  let currentPage = 1;
+  
+
+  async function fetchReadings() {
+    try {
+      const userid = "5f30067e12fa4c2d9515bd8772f025eb";
+
+      const response = await fetch("http://3.108.220.219:5000/samvaad-ui/add_moist?userid="+userid, {
+        method: "POST",
+      });
+
+      if (!response.ok) throw new Error("Network response was not ok");
+
+      const data = await response.json();
+
+      allReadings = data.map((item, index) => ({
+        id: index + 1,
+        date: new Date(item.moistdate).toISOString().split("T")[0],
+        moisture: item.moisture + "%",
+        humidity: item.humidity + "%",
+        temperature: item.temperature + "°C",
+        commodity: item.commodity,
+        lot: item.lot,
+        stack: item.stack
+      }));
+
+      renderTable(1);
+    } catch (err) {
+      console.error("Failed to fetch readings:", err);
+    }
+  }
+
+  function renderTable(page = 1) {
+    const search = document.getElementById('searchInput').value.toLowerCase();
+    const startDate = document.getElementById('startDate').value;
+    const endDate = document.getElementById('endDate').value;
+
+    const filtered = allReadings.filter(r => {
+      return (!search || r.id.toString().includes(search) || r.date.includes(search)) &&
+             (!startDate || r.date >= startDate) &&
+             (!endDate || r.date <= endDate);
+    });
+
+    const start = (page - 1) * rowsPerPage;
+    const end = start + rowsPerPage;
+    const currentData = filtered.slice(start, end);
+
+    const tbody = document.querySelector("#readingsTable tbody");
+    tbody.innerHTML = "";
+    currentData.forEach(r => {
+      tbody.insertAdjacentHTML("beforeend", `
+        <tr>
+          <td>${r.id}</td>
+          <td>${r.date}</td>
+          <td>${r.commodity}</td>
+          <td>${r.lot}</td>
+          <td>${r.stack}</td>
+          <td>${r.moisture}</td>
+          <td>${r.humidity}</td>
+          <td>${r.temperature}</td>
+        </tr>
+      `);
+    });
+
+    renderPagination(filtered.length);
+  }
+
+  function renderPagination(totalItems) {
+    const pageCount = Math.ceil(totalItems / rowsPerPage);
+    const container = document.getElementById("pagination");
+    container.innerHTML = "";
+    for (let i = 1; i <= pageCount; i++) {
+      const btn = document.createElement("button");
+      btn.textContent = i;
+      if (i === currentPage) btn.classList.add("active");
+      btn.onclick = () => {
+        currentPage = i;
+        renderTable(i);
+      };
+      container.appendChild(btn);
+    }
+  }
+
+  function exportToCSV() {
+    let csv = "ID,Date,Commodity,Lot,Stack,Moisture,Humidity,Temperature\n";
+    allReadings.forEach(r => {
+      csv += `${r.id},${r.date},${r.commodity},${r.lot},${r.stack},${r.moisture},${r.humidity},${r.temperature}\n`;
+    });
+    const blob = new Blob([csv], { type: 'text/csv' });
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = "readings.csv";
+    a.click();
+  }
+
+  document.getElementById("searchInput").addEventListener("input", () => renderTable(1));
+  document.getElementById("startDate").addEventListener("change", () => renderTable(1));
+  document.getElementById("endDate").addEventListener("change", () => renderTable(1));
+
+  new Chart(document.getElementById('moistureChart'), {
+    type: 'bar',
+    data: {
+      labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'],
+      datasets: [{
+        label: 'Moisture %',
+        data: [12, 19, 3, 5, 2],
+        backgroundColor: 'rgba(52, 152, 219, 0.6)'
+      }]
+    }
+  });
+
+  new Chart(document.getElementById('humidityChart'), {
+    type: 'line',
+    data: {
+      labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'],
+      datasets: [{
+        label: 'Humidity %',
+        data: [60, 62, 61, 58, 64],
+        borderColor: 'rgba(231, 76, 60, 0.9)',
+        fill: false
+      }]
+    }
+  });
+
+  // Initial load
+  fetchReadings();
+</script>
+
+  <script>
+    document.querySelectorAll('.sidebar a').forEach(link => {
+      link.addEventListener('click', function () {
+        // Remove 'active' from all
+        document.querySelectorAll('.sidebar a').forEach(el => el.classList.remove('active'));
+
+        // Add 'active' to the clicked one
+        this.classList.add('active');
+      });
+    });
+  </script>
+
+</body>
+</html>
