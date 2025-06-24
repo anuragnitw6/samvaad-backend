@@ -46,6 +46,6 @@ def handle_marshmallow_error(e):
     return {"error": e.messages}, 400
 
 # api.register_blueprint(SocietyBluePrint)
-api.register_blueprint(UserBluePrint)
+api.register_blueprint(UserBluePrint, url_prefix="/samvaad-ui")
 
 
