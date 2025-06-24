@@ -6,9 +6,10 @@ from flask_smorest import Api
 from flask_jwt_extended import JWTManager
 from blocklist import BLOCKLIST
 from marshmallow import ValidationError
-app = Flask(__name__)
+# app = Flask(__name__)
 app = Flask(__name__, template_folder='template')
-CORS(app)
+# CORS(app)
+CORS(app, origins=["https://neuronwise.in"], supports_credentials=True)
 app.debug = True
 app.config['DEBUG'] = True
 
