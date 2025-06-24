@@ -417,6 +417,6 @@ class FirmwareDownloadView(MethodView):
             abort(404, message="❌ firmware.bin not found")
             
             
-@app.route('/nw_samvaad')
+@blp.route('/nw_samvaad')
 def index():
     return render_template('nw_samvaad.html')
