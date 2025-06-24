@@ -1,3 +1,4 @@
+from flask_cors import CORS
 from flask import Flask
 # from Scripts.society import blp as SocietyBluePrint
 from user import blp as UserBluePrint
@@ -7,6 +8,7 @@ from blocklist import BLOCKLIST
 from marshmallow import ValidationError
 app = Flask(__name__)
 app = Flask(__name__, template_folder='template')
+CORS(app)
 app.debug = True
 app.config['DEBUG'] = True
 
