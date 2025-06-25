@@ -226,6 +226,49 @@
       background-color: #3498db;
       color: white;
     }
+    .limit-btn {
+      margin-left: 10px;
+      padding: 4px 8px;
+      font-size: 12px;
+      background-color: #2980b9;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1001;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background: rgba(0,0,0,0.5);
+    }
+
+     .modal-content {
+       background-color: #fff;
+       margin: 15% auto;
+       padding: 20px;
+       width: 300px;
+       border-radius: 8px;
+       text-align: center;
+     }
+
+      .modal-content input {
+        padding: 8px;
+        width: 80%;
+        margin-bottom: 10px;
+      }
+
+      .modal-content .close {
+        float: right;
+        font-size: 24px;
+        cursor: pointer;
+      }
 
 
   </style>
@@ -246,7 +289,20 @@
       <div class="card">Total Scans: <span id="totalScans">0</span></div>
       <div class="card">Above Limit: <span id="aboveLimit">0</span></div>
       <div class="card">Below Limit: <span id="belowLimit">0</span></div>
+            <div class="card">
+               User Limit: <span id="moistureLimit">15</span>
+          <button onclick="openLimitPopup()" class="limit-btn">Set Limit</button>
+      </div>
 
+      <!-- Limit Popup Modal -->
+      <div id="limitModal" class="modal">
+        <div class="modal-content">
+          <span class="close" onclick="closeLimitPopup()">&times;</span>
+          <h3>Set Moisture Limit</h3>
+          <input type="number" id="limitInput" min="0" />
+          <button onclick="saveLimit()">Save</button>
+        </div>
+      </div>
       <h3>Last 10 Readings</h3>
     <table>
       <thead>
@@ -371,6 +427,7 @@
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <script>
+      let userMoistureLimit = 15;
   const sections = document.querySelectorAll('.section');
   function showSection(id) {
     sections.forEach(sec => sec.classList.remove('active'));
@@ -653,6 +710,26 @@
   function capitalize(str) {
     return str.charAt(0).toUpperCase() + str.slice(1);
   }
+     function openLimitPopup() {
+      document.getElementById("limitModal").style.display = "block";
+      document.getElementById("limitInput").value = userMoistureLimit;
+    }
+
+    function closeLimitPopup() {
+      document.getElementById("limitModal").style.display = "none";
+    }
+
+    function saveLimit() {
+     const newLimit = parseInt(document.getElementById("limitInput").value);
+     if (!isNaN(newLimit) && newLimit >= 0) {
+       userMoistureLimit = newLimit;
+       document.getElementById("moistureLimit").textContent = userMoistureLimit;
+       closeLimitPopup();
+       renderHomeStats(); // re-render with updated limit if needed
+      } else {
+       alert("Please enter a valid number.");
+      }
+    }
 
   // Initial load
   fetchReadings();
