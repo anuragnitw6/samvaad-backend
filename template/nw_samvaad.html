@@ -532,43 +532,58 @@
   document.getElementById("searchInput").addEventListener("input", () => renderTable(1));
   document.getElementById("startDate").addEventListener("change", () => renderTable(1));
   document.getElementById("endDate").addEventListener("change", () => renderTable(1));
-
   function renderCharts() {
-     const labels = allReadings.map(r => r.date);
-     const moistureData = allReadings.map(r => r.moisture);
-     const humidityData = allReadings.map(r => r.humidity);
+  // Group data by date
+  const grouped = {};
 
-     // Destroy previous charts if they exist
-     if (moistureChart) moistureChart.destroy();
-     if (humidityChart) humidityChart.destroy();
+  allReadings.forEach(r => {
+    const date = r.date;
+    if (!grouped[date]) {
+      grouped[date] = { moisture: 0, humidity: 0, count: 0 };
+    }
+    grouped[date].moisture += r.moisture;
+    grouped[date].humidity += r.humidity;
+    grouped[date].count += 1;
+  });
 
-     const ctxMoisture = document.getElementById('moistureChart').getContext('2d');
-     moistureChart = new Chart(ctxMoisture, {
-       type: 'bar',
-       data: {
-         labels: labels,
-         datasets: [{
-           label: 'Moisture %',
-           data: moistureData,
-           backgroundColor: 'rgba(52, 152, 219, 0.6)'
-         }]
-       }
-     });
+  // Convert grouped data to arrays
+  const labels = Object.keys(grouped);
+  const moistureData = labels.map(date => (grouped[date].moisture / grouped[date].count).toFixed(2));
+  const humidityData = labels.map(date => (grouped[date].humidity / grouped[date].count).toFixed(2));
 
+  // Destroy old charts if exist
+  if (moistureChart) moistureChart.destroy();
+  if (humidityChart) humidityChart.destroy();
+
+  // Moisture Chart
+  const ctxMoisture = document.getElementById('moistureChart').getContext('2d');
+  moistureChart = new Chart(ctxMoisture, {
+    type: 'bar',
+    data: {
+      labels: labels,
+      datasets: [{
+        label: 'Avg Moisture %',
+        data: moistureData,
+        backgroundColor: 'rgba(52, 152, 219, 0.6)'
+      }]
+    }
+  });
+
+  // Humidity Chart
   const ctxHumidity = document.getElementById('humidityChart').getContext('2d');
-     humidityChart = new Chart(ctxHumidity, {
-       type: 'line',
-       data: {
-         labels: labels,
-         datasets: [{
-           label: 'Humidity %',
-           data: humidityData,
-           borderColor: 'rgba(231, 76, 60, 0.9)',
-           fill: false
-         }]
-       }
-     });
-   }
+  humidityChart = new Chart(ctxHumidity, {
+    type: 'line',
+    data: {
+      labels: labels,
+      datasets: [{
+        label: 'Avg Humidity %',
+        data: humidityData,
+        borderColor: 'rgba(231, 76, 60, 0.9)',
+        fill: false
+      }]
+    }
+  });
+}
 
   // Initial load
   fetchReadings();
