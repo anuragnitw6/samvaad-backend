@@ -437,19 +437,43 @@
       };
       container.appendChild(btn);
     }
+  } 
+  function exportToCSV() {
+    if (!Array.isArray(allReadings) || allReadings.length === 0) {
+      alert("No data available to export.");
+      return;
+    }
+
+    const replacer = (value) => (value === null || value === undefined) ? '' : String(value).replace(/"/g, '""'); // Escape quotes
+
+    let csv = "ID,Date,Commodity,Lot,Stack,Moisture,Humidity,Temperature\r\n";
+
+    allReadings.forEach(r => {
+      const row = [
+        replacer(r.id),
+        replacer(r.date),
+        replacer(r.commodity),
+        replacer(r.lot),
+        replacer(r.stack),
+        replacer(r.moisture),
+        replacer(r.humidity),
+        replacer(r.temperature)
+      ];
+      csv += `"${row.join('","')}"\r\n`;  // Proper CSV formatting
+    });
+
+    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+
+    const a = document.createElement("a");
+    const url = URL.createObjectURL(blob);
+    a.href = url;
+    a.download = "readings.csv";
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
   }
 
-  function exportToCSV() {
-    let csv = "ID,Date,Commodity,Lot,Stack,Moisture,Humidity,Temperature\n";
-    allReadings.forEach(r => {
-      csv += `${r.id},${r.date},${r.commodity},${r.lot},${r.stack},${r.moisture},${r.humidity},${r.temperature}\n`;
-    });
-    const blob = new Blob([csv], { type: 'text/csv' });
-    const a = document.createElement("a");
-    a.href = URL.createObjectURL(blob);
-    a.download = "readings.csv";
-    a.click();
-  }
 
   document.getElementById("searchInput").addEventListener("input", () => renderTable(1));
   document.getElementById("startDate").addEventListener("change", () => renderTable(1));
