@@ -233,7 +233,6 @@
       <div class="card">Below Limit: <span id="belowLimit">0</span></div>
 
       <h3>Last 10 Readings</h3>
-      <h3>Last 10 Readings</h3>
     <table>
       <thead>
         <tr>
@@ -407,30 +406,35 @@
   function updateHomeSection() {
     const moistureLimit = 15;
     const totalScans = allReadings.length;
-    const aboveLimit = allReadings.filter(r => r.moisture > moistureLimit).length;
+    const aboveLimit = allReadings.filter(r => parseFloat(r.moisture) > moistureLimit).length;
     const belowLimit = totalScans - aboveLimit;
 
-    document.getElementById("totalScans").textContent = totalScans;
-    document.getElementById("aboveLimit").textContent = aboveLimit;
-    document.getElementById("belowLimit").textContent = belowLimit;
-
-    // Show latest 10 readings
-    const latest10 = allReadings.slice(0, 10); // already sorted latest first
+    const ts = document.getElementById("totalScans");
+    const al = document.getElementById("aboveLimit");
+    const bl = document.getElementById("belowLimit");
     const tbody = document.getElementById("latestReadingsBody");
-    tbody.innerHTML = "";
 
-    latest10.forEach(r => {
-      const time = new Date(r.date).toTimeString().split(" ")[0] || "-";
-      const date = r.date;
-      const moisture = r.moisture?.toFixed(2) + "%";
-      tbody.insertAdjacentHTML("beforeend", `
-        <tr>
-          <td>${time}</td>
-          <td>${date}</td>
-          <td>${moisture}</td>
-        </tr>
-      `);
-    });
+    if (ts) ts.textContent = totalScans;
+    if (al) al.textContent = aboveLimit;
+    if (bl) bl.textContent = belowLimit;
+    if (tbody) {
+      tbody.innerHTML = "";
+      const latest10 = allReadings.slice(0, 10);
+      latest10.forEach((r, i) => {
+        tbody.insertAdjacentHTML("beforeend", `
+          <tr>
+            <td>${i + 1}</td>
+            <td>${r.date}</td>
+            <td>${r.commodity || "-"}</td>
+            <td>${r.lot || "-"}</td>
+            <td>${r.device || "-"}</td>
+            <td>${r.moisture}</td>
+            <td>${r.humidity}</td>
+            <td>${r.temperature}</td>
+          </tr>
+        `);
+      });
+    }
   }
 
   function renderTable(page = 1) {
