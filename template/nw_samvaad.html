@@ -356,17 +356,48 @@
   let currentPage = 1;
   
 
+  // async function fetchReadings() {
+  //   try {
+  //     const userid = "5f30067e12fa4c2d9515bd8772f025eb";
+
+  //     const response = await fetch("http://3.108.220.219:5000/samvaad-ui/add_moist?userid="+userid, {
+  //       method: "POST",
+  //     });
+
+  //     if (!response.ok) throw new Error("Network response was not ok");
+
+  //     const data = await response.json();
+
+  //     allReadings = data.map((item, index) => ({
+  //       id: index + 1,
+  //       date: new Date(item.moistdate).toISOString().split("T")[0],
+  //       moisture: item.moisture + "%",
+  //       humidity: item.humidity + "%",
+  //       temperature: item.temperature + "°C",
+  //       commodity: item.commodity,
+  //       lot: item.id,
+  //       device: item.deviceId
+  //     }));
+
+  //     renderTable(1);
+  //   } catch (err) {
+  //     console.error("Failed to fetch readings:", err);
+  //   }
+  // }
   async function fetchReadings() {
     try {
       const userid = "5f30067e12fa4c2d9515bd8772f025eb";
 
-      const response = await fetch("http://3.108.220.219:5000/samvaad-ui/add_moist?userid="+userid, {
+      const response = await fetch("http://3.108.220.219:5000/samvaad-ui/add_moist?userid=" + userid, {
         method: "POST",
       });
 
       if (!response.ok) throw new Error("Network response was not ok");
 
       const data = await response.json();
+
+      // Sort by moistdate in descending order (latest first)
+      data.sort((a, b) => new Date(b.moistdate) - new Date(a.moistdate));
 
       allReadings = data.map((item, index) => ({
         id: index + 1,
