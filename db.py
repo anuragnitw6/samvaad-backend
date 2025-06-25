@@ -86,7 +86,13 @@ class UserDatabase:
     def add_moist_history(self, id, userid, date, commodity, lot, stack, moisture, temperature, humidity, depo, deviceId, qmsid, millerid, millername):
         try:
             # Convert the date string to a datetime object using the expected format
-            moistdate_obj = datetime.strptime(date, '%d/%m/%Y %H:%M')
+            # moistdate_obj = datetime.strptime(date, '%d/%m/%Y %H:%M')
+            # Extract date part from input and get current time
+            date_part = datetime.strptime(date.split(' ')[0], '%d/%m/%Y').date()
+            time_part = datetime.now().time()
+
+            # Combine date and current time into a datetime object
+            moistdate_obj = datetime.combine(date_part, time_part)
         except ValueError as ve:
             print("Date format error:", ve)
             return False
