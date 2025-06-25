@@ -387,9 +387,38 @@
 
       renderTable(1);
       renderCharts();
+      updateHomeSection();
     } catch (err) {
       console.error("Failed to fetch readings:", err);
     }
+  }
+  function updateHomeSection() {
+    const moistureLimit = 15;
+    const totalScans = allReadings.length;
+    const aboveLimit = allReadings.filter(r => r.moisture > moistureLimit).length;
+    const belowLimit = totalScans - aboveLimit;
+
+    document.getElementById("totalScans").textContent = totalScans;
+    document.getElementById("aboveLimit").textContent = aboveLimit;
+    document.getElementById("belowLimit").textContent = belowLimit;
+
+    // Show latest 10 readings
+    const latest10 = allReadings.slice(0, 10); // already sorted latest first
+    const tbody = document.getElementById("latestReadingsBody");
+    tbody.innerHTML = "";
+
+    latest10.forEach(r => {
+      const time = new Date(r.date).toTimeString().split(" ")[0] || "-";
+      const date = r.date;
+      const moisture = r.moisture?.toFixed(2) + "%";
+      tbody.insertAdjacentHTML("beforeend", `
+        <tr>
+          <td>${time}</td>
+          <td>${date}</td>
+          <td>${moisture}</td>
+        </tr>
+      `);
+    });
   }
 
   function renderTable(page = 1) {
