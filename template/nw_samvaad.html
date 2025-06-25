@@ -491,23 +491,62 @@
     if (ts) ts.textContent = totalScans;
     if (al) al.textContent = aboveLimit;
     if (bl) bl.textContent = belowLimit;
+    // if (tbody) {
+    //   tbody.innerHTML = "";
+    //   const latest10 = allReadings.slice(0, 10);
+    //   latest10.forEach((r, i) => {
+    //     tbody.insertAdjacentHTML("beforeend", `
+    //       <tr>
+    //         <td>${i + 1}</td>
+    //         <td>${r.date}</td>
+    //         <td>${r.commodity || "-"}</td>
+    //         <td>${r.lot || "-"}</td>
+    //         <td>${r.device || "-"}</td>
+    //         <td>${r.moisture}</td>
+    //         <td>${r.humidity}</td>
+    //         <td>${r.temperature}</td>
+    //       </tr>
+    //     `);
+    //   });
     if (tbody) {
-      tbody.innerHTML = "";
-      const latest10 = allReadings.slice(0, 10);
-      latest10.forEach((r, i) => {
-        tbody.insertAdjacentHTML("beforeend", `
-          <tr>
-            <td>${i + 1}</td>
-            <td>${r.date}</td>
-            <td>${r.commodity || "-"}</td>
-            <td>${r.lot || "-"}</td>
-            <td>${r.device || "-"}</td>
-            <td>${r.moisture}</td>
-            <td>${r.humidity}</td>
-            <td>${r.temperature}</td>
-          </tr>
-        `);
+  tbody.innerHTML = "";
+  const latest10 = allReadings.slice(0, 10);
+
+  latest10.forEach((r, i) => {
+    const moistureVal = parseFloat(r.moisture);  // remove % and convert
+    const isAbove = moistureVal > userMoistureLimit;
+
+    const arrow = isAbove ? "↑" : "↓";
+    const arrowColor = isAbove ? "red" : "green";
+
+    tbody.insertAdjacentHTML("beforeend", `
+      <tr>
+        <td>${i + 1}</td>
+        <td>${r.date}</td>
+        <td>${r.commodity || "-"}</td>
+        <td>${r.lot || "-"}</td>
+        <td>${r.device || "-"}</td>
+        <td>
+          ${r.moisture}
+          <span style="
+            margin-left: 6px;
+            background-color: ${arrowColor};
+            color: white;
+            padding: 2px 6px;
+            border-radius: 6px;
+            font-weight: bold;
+            font-size: 0.9em;
+            display: inline-block;">
+            ${arrow}
+          </span>
+        </td>
+        <td>${r.humidity}</td>
+        <td>${r.temperature}</td>
+      </tr>
+       `);
       });
+    }
+
     }
   }
 
