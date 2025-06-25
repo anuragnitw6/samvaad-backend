@@ -357,36 +357,8 @@
   let humidityChart = null;
 
   let currentPage = 1;
-  
+  let currentAnalyticsFilter = 'daily';
 
-  // async function fetchReadings() {
-  //   try {
-  //     const userid = "5f30067e12fa4c2d9515bd8772f025eb";
-
-  //     const response = await fetch("http://3.108.220.219:5000/samvaad-ui/add_moist?userid="+userid, {
-  //       method: "POST",
-  //     });
-
-  //     if (!response.ok) throw new Error("Network response was not ok");
-
-  //     const data = await response.json();
-
-  //     allReadings = data.map((item, index) => ({
-  //       id: index + 1,
-  //       date: new Date(item.moistdate).toISOString().split("T")[0],
-  //       moisture: item.moisture + "%",
-  //       humidity: item.humidity + "%",
-  //       temperature: item.temperature + "°C",
-  //       commodity: item.commodity,
-  //       lot: item.id,
-  //       device: item.deviceId
-  //     }));
-
-  //     renderTable(1);
-  //   } catch (err) {
-  //     console.error("Failed to fetch readings:", err);
-  //   }
-  // }
   async function fetchReadings() {
     try {
       const userid = "5f30067e12fa4c2d9515bd8772f025eb";
@@ -532,58 +504,93 @@
   document.getElementById("searchInput").addEventListener("input", () => renderTable(1));
   document.getElementById("startDate").addEventListener("change", () => renderTable(1));
   document.getElementById("endDate").addEventListener("change", () => renderTable(1));
+  function setAnalyticsFilter(filter) {
+     currentAnalyticsFilter = filter;
+
+     // Highlight selected chip
+     document.querySelectorAll('.chip').forEach(btn => btn.classList.remove('active'));
+     event.target.classList.add('active');
+
+     renderCharts();
+  }
   function renderCharts() {
-  // Group data by date
-  const grouped = {};
+    const grouped = {};
 
-  allReadings.forEach(r => {
-    const date = r.date;
-    if (!grouped[date]) {
-      grouped[date] = { moisture: 0, humidity: 0, count: 0 };
-    }
-    grouped[date].moisture += r.moisture;
-    grouped[date].humidity += r.humidity;
-    grouped[date].count += 1;
-  });
+    allReadings.forEach(r => {
+      const dateObj = new Date(r.date);
+      let key = '';
 
-  // Convert grouped data to arrays
-  const labels = Object.keys(grouped);
-  const moistureData = labels.map(date => (grouped[date].moisture / grouped[date].count).toFixed(2));
-  const humidityData = labels.map(date => (grouped[date].humidity / grouped[date].count).toFixed(2));
+      if (currentAnalyticsFilter === 'daily') {
+        key = dateObj.toISOString().split("T")[0]; // YYYY-MM-DD
+      } else if (currentAnalyticsFilter === 'weekly') {
+        const year = dateObj.getFullYear();
+        const week = getISOWeekNumber(dateObj); // custom function
+        key = `${year}-W${week}`;
+      } else if (currentAnalyticsFilter === 'monthly') {
+        const year = dateObj.getFullYear();
+        const month = String(dateObj.getMonth() + 1).padStart(2, '0');
+        key = `${year}-${month}`;
+      }
 
-  // Destroy old charts if exist
-  if (moistureChart) moistureChart.destroy();
-  if (humidityChart) humidityChart.destroy();
+      if (!grouped[key]) {
+        grouped[key] = { moisture: 0, humidity: 0, count: 0 };
+      }
+      grouped[key].moisture += r.moisture;
+      grouped[key].humidity += r.humidity;
+      grouped[key].count += 1;
+    });
 
-  // Moisture Chart
-  const ctxMoisture = document.getElementById('moistureChart').getContext('2d');
-  moistureChart = new Chart(ctxMoisture, {
-    type: 'bar',
-    data: {
-      labels: labels,
-      datasets: [{
-        label: 'Avg Moisture %',
-        data: moistureData,
-        backgroundColor: 'rgba(52, 152, 219, 0.6)'
-      }]
-    }
-  });
+    const labels = Object.keys(grouped).sort();
+    const moistureData = labels.map(key => (grouped[key].moisture / grouped[key].count).toFixed(2));
+    const humidityData = labels.map(key => (grouped[key].humidity / grouped[key].count).toFixed(2));
 
-  // Humidity Chart
-  const ctxHumidity = document.getElementById('humidityChart').getContext('2d');
-  humidityChart = new Chart(ctxHumidity, {
-    type: 'line',
-    data: {
-      labels: labels,
-      datasets: [{
-        label: 'Avg Humidity %',
-        data: humidityData,
-        borderColor: 'rgba(231, 76, 60, 0.9)',
-        fill: false
-      }]
-    }
-  });
-}
+    // Destroy old charts if exist
+    if (moistureChart) moistureChart.destroy();
+    if (humidityChart) humidityChart.destroy();
+
+    // Moisture Chart
+    const ctxMoisture = document.getElementById('moistureChart').getContext('2d');
+    moistureChart = new Chart(ctxMoisture, {
+      type: 'bar',
+      data: {
+        labels: labels,
+        datasets: [{
+          label: `Avg Moisture % (${capitalize(currentAnalyticsFilter)})`,
+          data: moistureData,
+          backgroundColor: 'rgba(52, 152, 219, 0.6)'
+        }]
+      }
+    });
+
+    // Humidity Chart
+    const ctxHumidity = document.getElementById('humidityChart').getContext('2d');
+    humidityChart = new Chart(ctxHumidity, {
+      type: 'line',
+      data: {
+        labels: labels,
+        datasets: [{
+          label: `Avg Humidity % (${capitalize(currentAnalyticsFilter)})`,
+          data: humidityData,
+          borderColor: 'rgba(231, 76, 60, 0.9)',
+          fill: false
+        }]
+      }
+    });
+  }
+
+  // Helper: Get ISO Week Number (1-53)
+  function getISOWeekNumber(date) {
+    const tempDate = new Date(date.getTime());
+    tempDate.setHours(0, 0, 0, 0);
+    tempDate.setDate(tempDate.getDate() + 3 - (tempDate.getDay() + 6) % 7);
+    const week1 = new Date(tempDate.getFullYear(), 0, 4);
+    return 1 + Math.round(((tempDate - week1) / 86400000 - 3 + (week1.getDay() + 6) % 7) / 7);
+  }
+
+  // Helper: Capitalize string
+  function capitalize(str) {
+    return str.charAt(0).toUpperCase() + str.slice(1);
+  }
 
   // Initial load
   fetchReadings();
