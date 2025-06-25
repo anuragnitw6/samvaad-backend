@@ -233,10 +233,23 @@
       <div class="card">Below Limit: <span id="belowLimit">0</span></div>
 
       <h3>Last 10 Readings</h3>
-      <table>
-        <tr><th>Time</th><th>Date</th><th>Moisture</th></tr>
-        <tr><td>00:00:00</td><td>2025-06-24</td><td>13%</td></tr>
-      </table>
+      <h3>Last 10 Readings</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Date</th>
+          <th>Crop</th>
+          <th>Sample</th>
+          <th>Device</th>
+          <th>Moisture (%)</th>
+          <th>Humidity</th>
+          <th>Temperature</th>
+        </tr>
+      </thead>
+      <tbody id="latestReadingsBody"></tbody>
+    </table>
+
     </div>
 
     <div id="readings" class="section">
