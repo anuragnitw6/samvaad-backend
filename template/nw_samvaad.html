@@ -389,12 +389,21 @@
     const search = document.getElementById('searchInput').value.toLowerCase();
     const startDate = document.getElementById('startDate').value;
     const endDate = document.getElementById('endDate').value;
-
     const filtered = allReadings.filter(r => {
-      return (!search || r.id.toString().includes(search) || r.date.includes(search)) &&
-             (!startDate || r.date >= startDate) &&
-             (!endDate || r.date <= endDate);
+     return (!search || 
+           r.id.toString().includes(search) ||
+           r.date.includes(search) ||
+           r.device?.toString().toLowerCase().includes(search.toLowerCase()) 
+           ) &&
+         (!startDate || r.date >= startDate) &&
+         (!endDate || r.date <= endDate);
     });
+
+    // const filtered = allReadings.filter(r => {
+      // return (!search || r.id.toString().includes(search) || r.date.includes(search)) &&
+             // (!startDate || r.date >= startDate) &&
+             // (!endDate || r.date <= endDate);
+    // });
 
     const start = (page - 1) * rowsPerPage;
     const end = start + rowsPerPage;
