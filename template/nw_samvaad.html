@@ -377,8 +377,8 @@
       allReadings = data.map((item, index) => ({
         id: index + 1,
         date: new Date(item.moistdate).toISOString().split("T")[0],
-        moisture: item.moisture + "%",
-        humidity: item.humidity + "%",
+        moisture: parseFloat(item.moisture),
+        humidity: parseFloat(item.humidity),
         temperature: item.temperature + "°C",
         commodity: item.commodity,
         lot: item.id,
@@ -429,8 +429,8 @@
           <td>${format(r.commodity)}</td>
           <td>${format(r.lot)}</td>
           <td>${format(r.device)}</td>
-          <td>${format(r.moisture)}</td>
-          <td>${format(r.humidity)}</td>
+          <td>${format(r.moisture?.toFixed(2))}</td>
+          <td>${format(r.humidity?.toFixed(2))}</td>
           <td>${format(r.temperature)}</td>
         </tr>
       `);
