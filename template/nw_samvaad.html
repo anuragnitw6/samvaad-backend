@@ -730,6 +730,17 @@
        alert("Please enter a valid number.");
       }
     }
+    function renderHomeStats() {
+      const total = allReadings.length;
+
+      const above = allReadings.filter(r => parseFloat(r.moisture) > userMoistureLimit).length;
+
+      const below = total - above;
+
+      document.getElementById("totalScans").textContent = total;
+      document.getElementById("aboveLimit").textContent = above;
+      document.getElementById("belowLimit").textContent = below;
+    }
 
   // Initial load
   fetchReadings();
