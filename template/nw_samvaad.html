@@ -268,9 +268,11 @@
 
     <div id="readings" class="section">
       <h2>All Readings</h2>
-      <div class="filter-bar">
-        <input type="text" id="searchInput" placeholder="Search...">
+      <div class="filter-bar">)
+        <input type="text" id="searchInput" placeholder="Search (Sample or Device Id)">
+        <label for="startDate">Start Date</label>
         <input type="date" id="startDate">
+        <label for="endDate">End Date</label>
         <input type="date" id="endDate">
         <button class="export-btn" onclick="exportToCSV()">Export CSV</button>
       </div>
