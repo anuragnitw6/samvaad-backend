@@ -452,7 +452,7 @@
      // Add BOM (Byte Order Mark) to force UTF-8 encoding in Excel
      let csvContent = "\uFEFF"; 
 
-     const headers = ["ID", "Date", "Commodity", "Lot", "Stack", "Moisture", "Humidity", "Temperature"];
+     const headers = ["ID", "Date", "Commodity", "Lot", "Device", "Moisture", "Humidity", "Temperature"];
      csvContent += headers.join(",") + "\r\n";
 
      allReadings.forEach((r) => {
@@ -461,7 +461,7 @@
          replacer(r.date),
          replacer(r.commodity),
          replacer(r.lot),
-         replacer(r.stack),
+         replacer(r.device),
          replacer(r.moisture),
          replacer(r.humidity),
          replacer(r.temperature),
