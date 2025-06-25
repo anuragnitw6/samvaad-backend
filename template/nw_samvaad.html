@@ -393,7 +393,8 @@
     const filtered = allReadings.filter(r => {
       return (!search || r.id.toString().includes(search) || r.date.includes(search)) &&
              (!startDate || r.date >= startDate) &&
-             (!endDate || r.date <= endDate);
+             (!endDate || r.date <= endDate) &&
+             (!device || r.device.toString().includes(device));
     });
 
     const start = (page - 1) * rowsPerPage;
