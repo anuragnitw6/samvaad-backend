@@ -399,20 +399,23 @@
     const start = (page - 1) * rowsPerPage;
     const end = start + rowsPerPage;
     const currentData = filtered.slice(start, end);
-
     const tbody = document.querySelector("#readingsTable tbody");
     tbody.innerHTML = "";
+
     currentData.forEach(r => {
+      // Helper function to replace empty/null/undefined with "-"
+      const format = val => (val === null || val === undefined || val === "" ? "-" : val);
+
       tbody.insertAdjacentHTML("beforeend", `
         <tr>
-          <td>${r.id}</td>
-          <td>${r.date}</td>
-          <td>${r.commodity}</td>
-          <td>${r.lot}</td>
-          <td>${r.stack}</td>
-          <td>${r.moisture}</td>
-          <td>${r.humidity}</td>
-          <td>${r.temperature}</td>
+          <td>${format(r.id)}</td>
+          <td>${format(r.date)}</td>
+          <td>${format(r.commodity)}</td>
+          <td>${format(r.lot)}</td>
+          <td>${format(r.stack)}</td>
+          <td>${format(r.moisture)}</td>
+          <td>${format(r.humidity)}</td>
+          <td>${format(r.temperature)}</td>
         </tr>
       `);
     });
