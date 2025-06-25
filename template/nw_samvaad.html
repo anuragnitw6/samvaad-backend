@@ -394,7 +394,7 @@
       return (!search || r.id.toString().includes(search) || r.date.includes(search)) &&
              (!startDate || r.date >= startDate) &&
              (!endDate || r.date <= endDate) &&
-             (!device || r.device.toString().includes(device));
+             (!deviceId || r.device.toString().includes(deviceId));
     });
 
     const start = (page - 1) * rowsPerPage;
