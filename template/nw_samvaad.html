@@ -478,7 +478,7 @@
     }
   }
   function updateHomeSection() {
-    const moistureLimit = 15;
+    const moistureLimit = userMoistureLimit;
     const totalScans = allReadings.length;
     const aboveLimit = allReadings.filter(r => parseFloat(r.moisture) > moistureLimit).length;
     const belowLimit = totalScans - aboveLimit;
