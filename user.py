@@ -420,3 +420,8 @@ class FirmwareDownloadView(MethodView):
 @blp.route('/nw_samvaad')
 def index():
     return render_template('nw_samvaad.html')
+
+
+@blp.route('/nw_login')
+def index():
+    return render_template('nw_login.html')
