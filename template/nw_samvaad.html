@@ -254,7 +254,7 @@
           <th>#</th>
           <th>Date</th>
           <th>Crop</th>
-          <th>Lot</th>
+          <th>Sample</th>
           <th>Device</th>
           <th>Moisture (%)</th>
           <th>Humidity</th>
@@ -391,7 +391,7 @@
     const endDate = document.getElementById('endDate').value;
     const filtered = allReadings.filter(r => {
      return (!search || 
-           r.id.toString().includes(search) ||
+           r.lot.toString().includes(search) ||
            r.date.includes(search) ||
            r.device?.toString().toLowerCase().includes(search.toLowerCase()) 
            ) &&
